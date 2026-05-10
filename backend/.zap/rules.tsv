@@ -1,0 +1,45 @@
+# Format: RULE_ID	ACTION	DESCRIPTION
+# Actions: IGNORE, INFO, WARN, FAIL
+
+# Ignore some common false positives for Spring Boot apps
+10021	IGNORE	X-Content-Type-Options Header Missing
+10036	IGNORE	Server Leaks Version Information via "Server" HTTP Response Header Field
+10038	IGNORE	Content Security Policy (CSP) Header Not Set
+10040	IGNORE	Secure Pages Include Mixed Content
+10054	IGNORE	Cookie without SameSite Attribute
+10096	IGNORE	Timestamp Disclosure - Unix
+
+# Set important security checks to FAIL (will fail the build)
+40003	FAIL	CRLF Injection
+40008	FAIL	Parameter Tampering
+40009	FAIL	Server Side Include
+40012	FAIL	Cross Site Scripting (Reflected)
+40013	FAIL	Session Fixation
+40014	FAIL	Cross Site Scripting (Persistent)
+40016	FAIL	Cross Site Scripting (Persistent) - Prime
+40017	FAIL	Cross Site Scripting (Persistent) - Spider
+40018	FAIL	SQL Injection
+40019	FAIL	SQL Injection - MySQL
+40020	FAIL	SQL Injection - Hypersonic SQL
+40021	FAIL	SQL Injection - Oracle
+40022	FAIL	SQL Injection - PostgreSQL
+40023	FAIL	Possible Username Enumeration
+40024	FAIL	SQL Injection - SQLite
+40025	FAIL	Proxy Disclosure
+40026	FAIL	Cross Site Scripting (DOM Based)
+40027	FAIL	SQL Injection - MsSQL
+40028	FAIL	LDAP Injection
+
+# Authentication and session management
+10011	WARN	Cookie Without Secure Flag
+10015	WARN	Incomplete or No Cache-control and Pragma HTTP Header Set
+10017	WARN	Cross-Domain JavaScript Source File Inclusion
+10020	WARN	X-Frame-Options Header Not Set
+10055	WARN	CSP: Wildcard Directive
+90011	WARN	Charset Mismatch
+90020	WARN	Missing Anti-clickjacking Header
+
+# Information disclosure
+10009	INFO	In Page Banner Information Leak
+10010	INFO	Cookie No HttpOnly Flag
+10027	INFO	Information Disclosure - Suspicious Comments
