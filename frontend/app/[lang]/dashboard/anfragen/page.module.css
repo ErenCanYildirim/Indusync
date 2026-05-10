@@ -1,0 +1,56 @@
+.statusBadgeNew {
+  background-color: #22c55e;
+  color: white;
+}
+
+.statusBadgeApply {
+  border-color: #eab308;
+  color: #eab308;
+}
+
+.statusBadgeRevised {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.statusBadgeAssigned {
+  background-color: #6b7280; /* gray */
+  color: white;
+}
+
+.statusBadgeInterested {
+  background-color: #14b8a6; /* teal */
+  color: white;
+}
+
+.progressBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .tableActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.actionDropdownItem {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.actionDropdownItem:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
