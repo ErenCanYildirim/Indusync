@@ -1,0 +1,2236 @@
+{
+  "Navigation": {
+    "about": "About Us",
+    "specializedAreas": "Specialized Areas",
+    "references": "References",
+    "services": "Services",
+    "login": "Login",
+    "register": "Register",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
+  },
+  "Common": {
+    "status": {
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "success": "Success",
+      "error": "Error occurred",
+      "draft": "Draft",
+      "active": "Active",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "assigned": "Assigned",
+      "published": "Published",
+      "overdue": "Overdue",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "duplicate": "Duplicate",
+      "matches": "View Matches",
+      "save": "Save",
+      "saveAndClose": "Save & Close",
+      "saveAsDraft": "Save as Draft",
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update",
+      "submit": "Submit",
+      "close": "Close",
+      "back": "Back",
+      "next": "Next",
+      "previous": "Previous",
+      "finish": "Finish",
+      "download": "Download",
+      "settings": "Settings",
+      "actions": "Actions",
+      "unauthorized": "Unauthorized",
+      "unauthorizedDescription": "You do not have permission for this action",
+      "proposeNewDeadline": "Propose New Deadline",
+      "proposeNewDeadlineDescription": "Select a new completion date for this order. The counterparty must confirm it.",
+      "selectDate": "Select Date",
+      "sending": "Sending…",
+      "propose": "Propose",
+      "markAsCompleted": "Mark as Completed",
+      "markAsCompletedDescription": "Mark this order as completed.",
+      "completionMessage": "Completion message",
+      "completionMessagePlaceholder": "Optional completion message...",
+      "completionNote": "The client will be notified of your completion request.",
+      "requesting": "Requesting...",
+      "requestCompletion": "Request Completion",
+      "rejectCompletion": "Reject Completion",
+      "rejectCompletionDescription": "Why are you rejecting the completion of this order? Provide a reason so the counterparty can understand what still needs to be done.",
+      "rejectionReasonOptional": "Reason for rejection (optional)",
+      "rejectionReasonCompletionPlaceholder": "e.g. Additional work is required, documentation is missing...",
+      "rejectionNote": "The order remains \"In Progress\" and the counterparty will be informed of the rejection.",
+      "rejectingCompletion": "Rejecting...",
+      "rejectDeadlineExtension": "Reject Deadline Extension",
+      "rejectDeadlineExtensionDescription": "You are about to reject the proposed deadline extension to {date}. You can optionally provide a reason for the rejection that will be communicated to the counterparty.",
+      "rejectionReason": "Reason for rejection (optional)",
+      "rejectionReasonPlaceholder": "e.g. Timeline cannot be extended due to project constraints...",
+      "charactersCount": "{count}/500 characters",
+      "rejecting": "Rejecting...",
+      "reject": "Reject",
+      "note": "Note"
+    },
+    "defaults": {
+      "country": "Germany"
+    },
+    "time": {
+      "days30": "30 days",
+      "daysMore30": ">30 days"
+    },
+    "deadline": {
+      "overdue": "Overdue",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "daysRemaining": "{days} days remaining"
+    },
+    "table": {
+      "search": "Search...",
+      "noDataFound": "No data found",
+      "retry": "Try again",
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "emptyState": "No items to display",
+      "pagination": {
+        "showing": "Showing {start} to {end} of {total} results",
+        "page": "Page {current} of {total}",
+        "previous": "Previous",
+        "next": "Next",
+        "rowsPerPage": "Rows per page"
+      },
+      "sorting": {
+        "sortBy": "Sort by {column}",
+        "sortAscending": "Sort ascending",
+        "sortDescending": "Sort descending"
+      },
+      "filtering": {
+        "filter": "Filter",
+        "clearFilters": "Clear filters",
+        "noResults": "No results found for your filters"
+      },
+      "selection": {
+        "selectAll": "Select all",
+        "selectRow": "Select row",
+        "selectedCount": "{count} selected"
+      }
+    }
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back! Here you'll find an overview of your activities.",
+    "metrics": {
+      "activeOrders": {
+        "title": "Active Orders",
+        "description": "Overview of your running orders",
+        "tooltip": "Number of currently active orders"
+      },
+      "openApplications": {
+        "title": "Open Applications",
+        "description": "Applications for your orders",
+        "tooltip": "Number of received applications"
+      },
+      "completedOrders": {
+        "title": "Completed Orders",
+        "description": "Successfully completed projects",
+        "tooltip": "Number of completed orders"
+      },
+      "averageResponseTime": {
+        "title": "Avg. Response Time",
+        "description": "Average response time",
+        "tooltip": "Average time to first response"
+      }
+    },
+    "dynamicContent": {
+      "activeOrders": {
+        "description": {
+          "client": "Orders you have created as a client that are currently active",
+          "provider": "Orders assigned to you as a service provider that are currently being processed",
+          "dual": "Your active orders in both client and service provider roles"
+        },
+        "tooltip": {
+          "client": "Number of your published, assigned, or in-progress orders",
+          "provider": "Number of orders assigned to you that you are currently working on",
+          "dual": "Total number of your active orders in both roles"
+        }
+      },
+      "openApplications": {
+        "description": {
+          "client": "Applications you have received on your published orders",
+          "provider": "Applications you have sent to other companies' orders",
+          "dual": "Received and sent applications in both business roles"
+        },
+        "tooltip": {
+          "client": "Number of applications from service providers on your orders",
+          "provider": "Number of your applications on other companies' orders",
+          "dual": "Total number of all open applications in both roles"
+        }
+      },
+      "completedOrders": {
+        "description": {
+          "client": "Orders you have successfully completed as a client",
+          "provider": "Orders you have successfully completed as a service provider",
+          "dual": "All your successfully completed orders in both roles"
+        },
+        "tooltip": {
+          "client": "Number of projects you commissioned and completed",
+          "provider": "Number of projects you completed as a service provider",
+          "dual": "Total number of all completed orders in both roles"
+        }
+      },
+      "responseTime": {
+        "description": {
+          "client": "Average time until first application on your orders",
+          "provider": "Average time until your application on new orders",
+          "dual": "Average response time in both business roles"
+        },
+        "tooltip": {
+          "client": "How quickly you receive applications on your published orders",
+          "provider": "How quickly you apply to new orders",
+          "dual": "Average response time based on both roles"
+        }
+      }
+    },
+    "sections": {
+      "currentProjects": {
+        "title": "Current Projects",
+        "description": "Overview of your running orders"
+      },
+      "upcomingDeadlines": {
+        "title": "Upcoming Deadlines",
+        "description": "Your next important deadlines"
+      },
+      "orderActivity": {
+        "title": "Order Activity",
+        "description": "Overview of order activities in the last 30 days"
+      }
+    },
+    "roleContext": {
+      "title": "Your Company Role",
+      "dualRole": "You act as both client and service provider",
+      "clientOnly": "You act as a client",
+      "providerOnly": "You act as a service provider",
+      "determining": "Role is being determined..."
+    },
+    "periods": {
+      "currentStatus": "current status",
+      "total": "total",
+      "average": "average"
+    },
+    "trends": {
+      "fast": "Fast",
+      "normal": "Normal",
+      "slow": "Slow"
+    },
+    "actions": {
+      "viewAll": "View All",
+      "retry": "Retry"
+    },
+    "projects": {
+      "assignedTo": "Assigned to",
+      "notAssigned": "Not assigned",
+      "clientCompany": "Client",
+      "unknownClient": "Unknown client",
+      "projectItemAriaLabel": "Open project: {title}",
+      "roleContext": {
+        "client": "As client",
+        "provider": "As provider"
+      },
+      "empty": {
+        "title": "No active projects",
+        "description": "You currently have no active projects. Create a new order or apply to available orders."
+      },
+      "error": {
+        "loadingFailed": "Failed to load projects",
+        "retry": "Retry"
+      },
+      "showingCount": "Showing {count} of {total} projects"
+    },
+    "deadlines": {
+      "empty": {
+        "title": "No upcoming deadlines",
+        "description": "You have no urgent deadlines in the next 30 days. Great work staying on top of your projects!",
+        "badge": "All caught up"
+      },
+      "error": {
+        "loadingFailed": "Failed to load deadlines",
+        "retry": "Retry"
+      },
+      "showingCount": "Showing {count} of {total} deadlines",
+      "urgency": {
+        "critical": "Critical",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "types": {
+        "completion": "Order completion",
+        "milestone": "Milestone",
+        "application_response": "Application response"
+      },
+      "type": {
+        "completion": "Order completion",
+        "milestone": "Milestone",
+        "applicationResponse": "Application response",
+        "general": "General deadline"
+      },
+      "timeRemaining": {
+        "overdue": "Overdue",
+        "today": "Due today",
+        "tomorrow": "Due tomorrow",
+        "daysLeft": "{days} days left",
+        "hoursLeft": "{hours} hours left"
+      },
+      "deadlineItemAriaLabel": "Open deadline: {title}, {timeRemaining}"
+    },
+    "states": {
+      "loading": "Loading...",
+      "noData": "No Data",
+      "error": "Error occurred"
+    },
+    "sidebar": {
+      "close": "Close",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "logout": "Logout",
+      "loggingOut": "Logging out...",
+      "confirmLogout": "Are you sure you want to logout?",
+      "language": "Language"
+    },
+    "appBar": {
+      "loading": "Loading...",
+      "openMenu": "Open menu",
+      "collapseSidebar": "Collapse sidebar",
+      "expandSidebar": "Expand sidebar",
+      "search": "Search",
+      "searchPlaceholder": "Search...",
+      "closeSearch": "Close search",
+      "notifications": "Notifications",
+      "notificationTitle": "New request for your order",
+      "notificationDescription": "Sample Company GmbH has shown interest in your order \"PLC Programming\".",
+      "notificationTime": "2 hours ago",
+      "viewAllNotifications": "View all notifications",
+      "businessAccount": "Business Account",
+      "personalAccount": "Personal Account",
+      "editProfile": "Edit Profile",
+      "companyProfile": "Company Profile",
+      "settings": "Settings",
+      "logout": "Logout",
+      "loggingOut": "Logging out...",
+      "logoutConfirmTitle": "Do you really want to logout?",
+      "logoutConfirmDescription": "You will be redirected to the login page.",
+      "cancel": "Cancel"
+    },
+    "customerInquiries": {
+      "title": "Customer Inquiries",
+      "description": "Manage your received customer inquiries here",
+      "loading": "Loading customer inquiries...",
+      "viewAll": "View All",
+      "notSpecified": "Not specified",
+      "emptyState": "No matching customer inquiries found.",
+      "error": {
+        "title": "Error loading customer inquiries",
+        "unknown": "An unknown error occurred"
+      },
+      "filters": {
+        "filter": "Filter",
+        "allInquiries": "All Inquiries",
+        "unviewed": "Unviewed",
+        "highQuality": "High Quality Match",
+        "minScore": "Min. Score",
+        "allScores": "All Scores",
+        "score30Plus": "30% and higher",
+        "score50Plus": "50% and higher",
+        "score70Plus": "70% and higher"
+      },
+      "search": {
+        "placeholder": "Search..."
+      },
+      "table": {
+        "inquiryTitle": "Inquiry Title",
+        "client": "Client",
+        "location": "Location",
+        "completion": "Completion",
+        "matchScore": "Match Score",
+        "myInterest": "My Interest",
+        "status": "Status",
+        "actions": "Actions",
+        "noTitle": "No Title",
+        "unknown": "Unknown"
+      },
+      "status": {
+        "assigned": "Assigned",
+        "strongMatch": "Strong Match",
+        "viewed": "Viewed",
+        "new": "New"
+      },
+      "interest": {
+        "requested": "Requested",
+        "sent": "Interest Sent"
+      },
+      "actions": {
+        "viewDetails": "View Details",
+        "actions": "Actions",
+        "view": "View",
+        "interest": "Interest"
+      },
+      "pagination": {
+        "pageInfo": "Page {current} of {total} (total {elements})"
+      },
+      "details": {
+        "title": "Match Details",
+        "client": "Client",
+        "location": "Location",
+        "completionDate": "Completion Date",
+        "matchScore": "Match Score",
+        "quality": "Quality",
+        "scoreBreakdown": "Score Breakdown",
+        "industry": "Industry",
+        "skills": "Skills",
+        "certificates": "Certificates",
+        "radius": "Radius",
+        "viewFullDetails": "View Full Project Details"
+      },
+      "confirmInterest": {
+        "title": "Confirm Interest",
+        "description": "Do you really want to submit your interest in this order? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Yes, Send Interest"
+      }
+    },
+    "serviceProviders": {
+      "title": "Service Providers",
+      "description": "Manage your service providers and partners",
+      "verified": "Verified",
+      "emptyState": "No service providers found.",
+      "filters": {
+        "selectStatus": "Select Status",
+        "allStatus": "All Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "selectLocation": "Select Location",
+        "allLocations": "All Locations"
+      },
+      "table": {
+        "company": "Company",
+        "location": "Location",
+        "specializations": "Specializations",
+        "rating": "Rating",
+        "completedProjects": "Completed Projects",
+        "responseTime": "Response Time",
+        "status": "Status",
+        "joinedAt": "Joined",
+        "actions": "Actions",
+        "noLocation": "No Location"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending"
+      },
+      "actions": {
+        "viewProfile": "View Profile",
+        "viewDetails": "View Details",
+        "contact": "Contact"
+      }
+    },
+    "orderMatches": {
+      "title": "Matching Service Providers",
+      "subtitle": "for \"{orderTitle}\"",
+      "navigation": {
+        "back": "Back"
+      },
+      "orderSummary": {
+        "budget": "Budget: €{amount}",
+        "deadline": "Deadline: {date}"
+      },
+      "matchesTable": {
+        "title": "Found Matches",
+        "description": "Service providers that match your order, sorted by compatibility"
+      },
+      "filters": {
+        "selectQuality": "Select Quality",
+        "allMatches": "All Matches",
+        "highQuality": "High Quality",
+        "interested": "Interested"
+      },
+      "table": {
+        "company": "Company Name",
+        "score": "Score",
+        "address": "Address",
+        "workRadius": "Work Radius",
+        "status": "Status",
+        "lastActivity": "Last Activity",
+        "activity": "Activity",
+        "actions": "Actions",
+        "search": "Search...",
+        "noAddress": "No address available",
+        "incompleteAddress": "Incomplete address",
+        "notSpecified": "Not specified",
+        "noActivity": "No activity",
+        "invalidDate": "Invalid date"
+      },
+      "quality": {
+        "excellent": "Excellent",
+        "veryGood": "Very Good",
+        "good": "Good",
+        "satisfactory": "Satisfactory",
+        "low": "Low"
+      },
+      "status": {
+        "viewed": "Viewed",
+        "notViewed": "Not Viewed",
+        "interested": "Interested"
+      },
+      "labels": {
+        "top": "Top"
+      },
+      "actions": {
+        "actions": "Actions",
+        "profile": "Profile",
+        "view": "View",
+        "select": "Select",
+        "reload": "Reload"
+      },
+      "errors": {
+        "orderLoadFailed": "Failed to load order.",
+        "matchesLoadFailed": "Failed to load matches."
+      },
+      "emptyState": "No matching service providers found. No matches have been created for this order yet.",
+      "confirmDialog": {
+        "title": "Select Provider",
+        "description": "Do you want to hire this service provider? The selection will start the order and cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Yes, select"
+      }
+    },
+    "matchingHistory": {
+      "title": "Matching Details",
+      "loading": "Loading matching details...",
+      "navigation": {
+        "backToOrders": "Back to Orders"
+      },
+      "errors": {
+        "loadError": "Error Loading",
+        "loadErrorDescription": "Matching details could not be loaded.",
+        "matchesLoadFailed": "Failed to load matches."
+      },
+      "querySummary": {
+        "title": "Search query from {date}",
+        "category": "Category",
+        "searchRadius": "Search Radius",
+        "foundMatches": "Found Matches",
+        "averageScore": "Average Score",
+        "notSpecified": "Not specified",
+        "unlimited": "Unlimited"
+      },
+      "queryDetails": {
+        "targetIndustries": "Target Industries",
+        "requiredSpecializations": "Required Specializations",
+        "requiredCertifications": "Required Certifications",
+        "requiredVerifications": "Required Verifications"
+      },
+      "matchesTable": {
+        "title": "Found Matches",
+        "description": "Service providers that match your search query, sorted by compatibility"
+      },
+      "table": {
+        "company": "Company Name",
+        "score": "Score",
+        "address": "Address",
+        "distance": "Distance",
+        "verified": "Verified",
+        "scoreDetails": "Score Details",
+        "actions": "Actions",
+        "noAddress": "No address available",
+        "notAvailable": "Not available"
+      },
+      "quality": {
+        "excellent": "Excellent",
+        "veryGood": "Very Good",
+        "good": "Good",
+        "satisfactory": "Satisfactory",
+        "low": "Low"
+      },
+      "status": {
+        "verified": "Verified",
+        "notVerified": "Not Verified"
+      },
+      "scoreDetails": {
+        "industry": "Industry",
+        "skills": "Skills",
+        "certificates": "Certificates",
+        "distance": "Distance"
+      },
+      "actions": {
+        "profile": "Profile"
+      },
+      "emptyState": "No matching service providers found. No matches were created for this search query."
+    },
+    "completedOrders": {
+      "title": "Completed Orders",
+      "description": "Manage your successfully completed projects",
+      "loading": "Loading completed orders...",
+      "loadingDescription": "Please wait a moment",
+      "export": "Export",
+      "debug": {
+        "completedOrders": "Completed orders",
+        "filtered": "Filtered",
+        "usingEndpoint": "Using /completed endpoint"
+      },
+      "cardTitle": "Completed Orders ({count})",
+      "error": {
+        "title": "Error loading orders",
+        "description": "The completed orders could not be loaded. Please try again.",
+        "retry": "Try again"
+      },
+      "filters": {
+        "label": "Filter",
+        "selectRole": "Select role",
+        "allRoles": "All roles",
+        "asClient": "As client",
+        "asProvider": "As provider",
+        "selectYear": "Select year",
+        "allYears": "All years"
+      },
+      "search": {
+        "placeholder": "Search..."
+      },
+      "table": {
+        "order": "Order",
+        "company": "Company",
+        "role": "Role",
+        "completionDate": "Completion Date",
+        "budget": "Budget",
+        "status": "Status",
+        "actions": "Actions",
+        "untitledOrder": "Untitled Order",
+        "unknown": "Unknown",
+        "id": "ID"
+      },
+      "status": {
+        "completed": "Completed"
+      },
+      "roles": {
+        "client": "Client",
+        "provider": "Provider"
+      },
+      "actions": {
+        "details": "Details",
+        "viewDetails": "View Details",
+        "downloadInvoice": "Download Invoice",
+        "exportDocuments": "Export Documents"
+      },
+      "emptyState": {
+        "title": "No completed orders found",
+        "filtered": "Try different filter criteria",
+        "default": "Your completed orders will be displayed here"
+      },
+      "mobile": {
+        "company": "Company",
+        "role": "Role",
+        "completed": "Completed",
+        "budget": "Budget"
+      },
+      "review": {
+        "loading": "Loading...",
+        "rate": "Rate",
+        "allReviews": "All Reviews",
+        "rated": "Rated"
+      }
+    },
+    "navigation": {
+      "projects": "Projects & Orders",
+      "dashboard": "Dashboard",
+      "orders": "Orders",
+      "inquiries": "Customer Inquiries",
+      "completed": "Completed Orders",
+      "calendar": "Calendar",
+      "company": "Company",
+      "companyProfile": "Company Profile",
+      "employees": "Employees",
+      "training": "Training",
+      "invoices": "Invoices",
+      "settings": "Settings",
+      "accountSettings": "Account Settings"
+    },
+    "companyProfile": {
+      "title": "Company Profile",
+      "premium": "Premium",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "logoBasics": {
+        "title": "Company Logo & Basic Information",
+        "companyName": "Company Name",
+        "description": "Description",
+        "businessHours": "Business Hours",
+        "businessHoursPlaceholder": "e.g. Mon-Fri 8:00-17:00",
+        "logoUploadInfo": "Logo: Click on the image to upload a new logo. Supported formats: JPG, PNG, GIF. Maximum file size: 5MB.",
+        "uploadingLogo": "Logo is being uploaded..."
+      },
+      "address": {
+        "title": "Address",
+        "street": "Street",
+        "houseNumber": "House Number",
+        "postalCode": "Postal Code",
+        "city": "City",
+        "country": "Country"
+      },
+      "contact": {
+        "title": "Contact Information",
+        "phone": "Phone",
+        "email": "Email",
+        "website": "Website"
+      },
+      "tax": {
+        "title": "Tax Information",
+        "vatNumber": "VAT Number",
+        "taxId": "Tax ID"
+      },
+      "meta": {
+        "title": "Company Details",
+        "companyType": "Company Type",
+        "status": "Status",
+        "verified": "Verified",
+        "yes": "Yes",
+        "no": "No",
+        "roles": {
+          "title": "Business Roles",
+          "client": "Client",
+          "contractor": "Service Provider",
+          "description": "Business roles can only be set during registration."
+        }
+      },
+      "roleManagement": {
+        "title": "Role Management",
+        "currentRoles": "Current Roles",
+        "availableRoles": "Available Roles",
+        "noRoles": "No roles assigned",
+        "allRolesActive": "All available roles are already active",
+        "addRole": "Add Role",
+        "adding": "Adding...",
+        "dismiss": "Dismiss",
+        "fileUpload": {
+          "browse": "Browse",
+          "selectedFile": "Selected file: {name} ({size} MB)"
+        },
+        "addRoleModal": {
+          "title": "Add Role: {role}",
+          "description": "This functionality will be implemented in the next task.",
+          "cancel": "Cancel",
+          "continue": "Continue",
+          "benefits": "Benefits of this role:",
+          "requiredInformation": "Required Information:",
+          "optionalInformation": "Optional Information:",
+          "required": "Required",
+          "optional": "Optional",
+          "registrationProcess": "Registration Process",
+          "registrationProcessDescription": "This role addition follows the same process as the initial registration. You'll be guided through each step to provide the necessary information.",
+          "noAdditionalRequirements": "No additional information is required for this role. You can add it immediately.",
+          "processing": "Processing..."
+        }
+      },
+      "documents": {
+        "title": "Uploaded Documents",
+        "companyProfile": "Company Profile.pdf",
+        "projectPortfolio": "Project Portfolio.pdf",
+        "certifications": "Certifications.pdf"
+      },
+      "pastProjects": {
+        "title": "Past Projects",
+        "projectName": "Project Name",
+        "date": "Date",
+        "rating": "Rating",
+        "status": "Status",
+        "completed": "Completed",
+        "factoryAutomation": "Factory Automation",
+        "sensorInstallation": "Sensor Installation",
+        "mqttApplication": "MQTT Application"
+      },
+      "references": {
+        "title": "References",
+        "name": "Name",
+        "company": "Company",
+        "contact": "Contact",
+        "rating": "Rating",
+        "details": "Details",
+        "viewRatingDetails": "View rating details"
+      },
+      "termsConditions": {
+        "title": "Terms & Conditions",
+        "uploadDocument": "Upload T&C Document",
+        "replaceDocument": "Replace Document",
+        "viewDocument": "View Document",
+        "deleteDocument": "Delete Document",
+        "active": "Active",
+        "uploaded": "Uploaded",
+        "version": "Version",
+        "uploading": "Uploading",
+        "deleting": "Deleting",
+        "retry": "Retry",
+        "noDocument": {
+          "title": "No T&C uploaded",
+          "description": "Upload your Terms & Conditions so partners can review your business terms."
+        },
+        "uploadSuccess": "T&C uploaded successfully",
+        "uploadSuccessDescription": "The document '{fileName}' has been uploaded successfully.",
+        "uploadError": "Upload error",
+        "deleteSuccess": "T&C deleted successfully",
+        "deleteSuccessDescription": "The T&C document has been successfully removed.",
+        "deleteError": "Delete error",
+        "deleteErrorDescription": "The document could not be deleted. Please try again.",
+        "downloadSuccess": "Download started",
+        "downloadSuccessDescription": "The document '{fileName}' is being downloaded.",
+        "downloadError": "Download error",
+        "downloadErrorDescription": "The document could not be downloaded.",
+        "uploadDocumentDescription": "Upload your Terms & Conditions as a PDF file.",
+        "replaceDocumentDescription": "The current document will be replaced with the new one.",
+        "deleteConfirmation": {
+          "title": "Delete T&C Document",
+          "description": "Are you sure you want to delete the T&C document?",
+          "warning": "This action cannot be undone. The document will be permanently removed."
+        },
+        "error": {
+          "loadFailed": "Failed to load T&C",
+          "downloadFailed": "Download failed",
+          "downloadFailedDescription": "The document could not be downloaded.",
+          "fileNotFound": "File not found"
+        },
+        "info": {
+          "fileFormat": "Only PDF files are allowed",
+          "maxFileSize": "Maximum file size: 10MB",
+          "visibility": "Document is visible to partners",
+          "auditLog": "All access is logged"
+        },
+        "upload": "Upload",
+        "complete": "Complete",
+        "fileSelected": "File selected",
+        "dragDropOrClick": "Drag and drop file here or click to select",
+        "fileRequirements": "Maximum size: {maxSize}, Allowed formats: {types}",
+        "browseFiles": "Browse files",
+        "loading": "Loading...",
+        "close": "Close",
+        "download": "Download",
+        "downloading": "Downloading...",
+        "openInNewTab": "Open in new tab",
+        "accessTracked": "Access tracked",
+        "officialDocument": "Official Document",
+        "viewerTitle": "{companyName} - Terms & Conditions",
+        "lastUpdated": "Last updated",
+        "retryLoad": "Retry load"
+      }
+    },
+    "calendar": {
+      "title": "Order Calendar",
+      "subtitle": {
+        "provider": "Your assigned orders",
+        "client": "Your created orders"
+      },
+      "loading": "Loading orders...",
+      "error": {
+        "title": "Error loading orders",
+        "retry": "Try again"
+      },
+      "noCompany": {
+        "title": "Company membership required",
+        "description": "You must be a member of a company to view orders in the calendar."
+      },
+      "stats": {
+        "total": "Total",
+        "active": "Active",
+        "urgent": "Urgent",
+        "overdue": "Overdue"
+      },
+      "controls": {
+        "title": "Project Timeline",
+        "today": "Today",
+        "previousPeriod": "Previous period",
+        "nextPeriod": "Next period",
+        "month": "Month",
+        "week": "Week",
+        "newProject": "New Project"
+      },
+      "legend": {
+        "published": "Published",
+        "providerSelection": "Provider Selection",
+        "orderAssigned": "Order Assigned",
+        "active": "Active",
+        "completed": "Completed",
+        "overdue": "Overdue",
+        "draft": "Draft"
+      },
+      "empty": {
+        "title": "No orders found",
+        "description": {
+          "both": "You haven't created or been assigned any orders with start and end dates yet.",
+          "provider": "You haven't been assigned any orders with start and end dates yet.",
+          "client": "You haven't created any orders with start and end dates yet."
+        },
+        "requirements": "For calendar display, only orders with both dates are shown:",
+        "startDate": "Start date (when work begins)",
+        "deadline": "Deadline (when work must be completed)",
+        "createFirstOrder": "Create first order"
+      },
+      "orderItem": {
+        "allDay": "All day",
+        "start": "Start",
+        "end": "End",
+        "day": "Day",
+        "urgent": "Urgent",
+        "highPriority": "High Priority",
+        "overdue": "Overdue",
+        "viewOrder": "View order"
+      },
+      "modal": {
+        "title": "Orders for",
+        "moreOrders": "more orders",
+        "viewAll": "View all orders"
+      },
+      "dayCell": {
+        "showMore": "more orders",
+        "showMoreFor": "Show more orders for",
+        "noOrders": "No orders"
+      },
+      "projectItem": {
+        "allDay": "All day",
+        "viewProject": "View project"
+      },
+      "selectedProject": {
+        "timeframe": "Timeframe",
+        "location": "Location",
+        "applications": "Applications"
+      }
+    },
+    "orders": {
+      "title": "Orders",
+      "welcome": "Welcome to your order management! Here you can create, manage, and track all your orders.",
+      "createOrder": "Create Order",
+      "createOrderDescription": "Create a new order to find qualified service providers for your project.",
+      "myOrders": "My Orders",
+      "ordersFound": "orders found",
+      "searchOrders": "Search orders...",
+      "filterStatus": "Filter status",
+      "allStatuses": "All Statuses",
+      "draft": "Draft",
+      "published": "Published",
+      "matched": "Matched",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "view": "View",
+      "edit": "Edit",
+      "publish": "Publish",
+      "cancel": "Cancel",
+      "confirmCancel": "Are you sure you want to cancel this order? This action cannot be undone.",
+      "cancelOrder": "Cancel Order",
+      "created": "Created",
+      "publishedAt": "Published",
+      "noOrdersFound": "No orders found matching your filter criteria.",
+      "noOrdersCreated": "You haven't created any orders yet.",
+      "loadingError": "Error loading orders. Please try again later.",
+      "radiusKm": "km radius",
+      "locationNotAvailable": "Location not available",
+      "back": "Back",
+      "next": "Next",
+      "management": "Order Management",
+      "successfullyCreated": "Order successfully created!",
+      "createdAndPublished": "Order created and published!",
+      "newOrder": "New Order",
+      "roleSelection": "Select Role",
+      "asClient": "As Client",
+      "asProvider": "As Provider",
+      "statusSelection": "Select Status",
+      "clientDescription": "As a client, you can efficiently and centrally manage your orders here",
+      "providerDescription": "As a provider, you can efficiently and centrally manage your orders here.",
+      "noOrdersAvailable": "No orders available yet.",
+      "loadError": "Error loading orders. Please try again later.",
+      "pageTitle": "Create Order",
+      "pageDescription": "Fill out the following information to create a new order and find qualified service providers.",
+      "createOrderTitle": "Create New Order",
+      "createOrderDescriptionAlt": "Create a new order with automatic address recognition",
+      "basicInformation": "Basic Information",
+      "titleLabel": "Title *",
+      "titlePlaceholder": "e.g. Electrical Installation Office Building",
+      "description": "Description",
+      "descriptionPlaceholder": "Detailed description of the order...",
+      "contactInformation": "Contact Information",
+      "contactName": "Contact Person",
+      "contactNamePlaceholder": "First and Last Name",
+      "contactEmail": "Email",
+      "contactEmailPlaceholder": "email@example.com",
+      "contactPhone": "Phone (optional)",
+      "contactPhonePlaceholder": "+49 123 456789",
+      "addressInformation": "Address Information",
+      "street": "Street",
+      "streetPlaceholder": "e.g. Sample Street",
+      "houseNumber": "House Number",
+      "houseNumberPlaceholder": "e.g. 123",
+      "postalCode": "Postal Code",
+      "postalCodePlaceholder": "e.g. 10115",
+      "city": "City",
+      "cityPlaceholder": "e.g. Berlin",
+      "country": "Country",
+      "searchRadius": "Search Radius (km)",
+      "orderDetails": "Order Details",
+      "primaryCategory": "Primary Category",
+      "selectCategory": "Select Category",
+      "targetIndustries": "Target Industries",
+      "placementTypes": "Placement Types",
+      "urgency": "Urgency",
+      "urgencyLow": "Low",
+      "urgencyMedium": "Medium",
+      "urgencyHigh": "High",
+      "startDate": "Start Date",
+      "deadline": "Deadline",
+      "responseTime": "Response Time (hours)",
+      "budget": "Budget (EUR)",
+      "budgetPlaceholder": "e.g. 5000",
+      "requiredSkills": "Required Skills",
+      "requiredSpecializations": "Required Specializations",
+      "requiredVerifications": "Required Verifications",
+      "requiredCertifications": "Required Certifications",
+      "saveAsDraft": "Save as Draft",
+      "createAndPublish": "Create and Publish",
+      "addressSelected": "Address successfully selected",
+      "orderCreatedSuccess": "Order successfully created!",
+      "orderCreatedAndPublished": "Order created and published!",
+      "orderCreationError": "Error creating order: {error}",
+      "draftUpdated": "Draft updated!",
+      "orderUpdatedAndPublished": "Order updated and published!",
+      "stepProjectInfo": "Project Information",
+      "stepLocationTime": "Location & Time",
+      "stepRequirements": "Requirements",
+      "stepDocuments": "Documents",
+      "stepReview": "Review",
+      "matchingPreview": "Matching Preview",
+      "matchingPreviewShort": "Matching",
+      "loading": "Loading...",
+      "preview": "Preview",
+      "previewShort": "Search",
+      "results": "Results",
+      "resultsShort": "Matches",
+      "history": "History",
+      "historyShort": "Log",
+      "noMatchingQueries": "No matching queries available yet",
+      "date": "Date",
+      "category": "Category",
+      "radius": "Radius",
+      "matches": "Matches",
+      "action": "Action",
+      "all": "All",
+      "matchesFound": "matches found",
+      "averageMatch": "Average match:",
+      "bestMatch": "Best match:",
+      "noMatchesFound": "No matches found",
+      "specializations": "Specializations:",
+      "certifications": "Certifications:",
+      "verifications": "Verifications:",
+      "newConstruction": "New Construction Project",
+      "maintenance": "Maintenance",
+      "emergencyService": "Emergency Service",
+      "consulting": "Consulting & Planning",
+      "mechanicalEngineering": "Assembly",
+      "electricalWork": "Electrical Engineering",
+      "plumbing": "Plumbing",
+      "hvac": "Heating/Ventilation/Air Conditioning",
+      "industrialCleaning": "Industrial Cleaning",
+      "welding": "Welding",
+      "painting": "Painting/Coating",
+      "insulation": "Insulation",
+      "automation": "Automation",
+      "instrumentation": "Measurement Technology",
+      "safetyInspection": "Safety Inspection",
+      "craneOperation": "Crane Service",
+      "scaffolding": "Scaffolding",
+      "confinedSpace": "Tank Work",
+      "heightWork": "Height Work",
+      "shutdownMaintenance": "Shutdown Maintenance",
+      "other": "Other",
+      "plantEngineering": "Plant Engineering",
+      "healthcare": "Healthcare",
+      "agricultureResources": "Agriculture & Resources",
+      "agricultureForestry": "Agriculture & Forestry",
+      "mining": "Mining",
+      "manufacturing": "Manufacturing Industry",
+      "automotive": "Automotive Industry",
+      "mechanicalEngineeringIndustry": "Mechanical Engineering",
+      "chemical": "Chemical Industry",
+      "electrical": "Electrical Engineering & Electronics",
+      "metal": "Metal Industry",
+      "plastics": "Plastics Industry",
+      "paperPrinting": "Paper & Printing Industry",
+      "textileClothing": "Textile & Clothing Industry",
+      "foodBeverage": "Food & Beverage Industry",
+      "registeredCompany": "Registered Company",
+      "liabilityInsurance": "Business Liability Insurance",
+      "taxId": "Valid Tax Number",
+      "employees": "Permanent Employees",
+      "iso9001": "ISO 9001",
+      "iso14001": "ISO 14001",
+      "tuv": "TÜV Certification",
+      "vds": "VdS Recognition",
+      "scc": "SCC Certification",
+      "responseTime3Days": "3 days",
+      "responseTime7Days": "7 days",
+      "responseTime14Days": "14 days",
+      "responseTime30Days": "30 days",
+      "responseTimeMore30Days": ">30 days",
+      "responseTimeCustom": "Custom",
+      "unlimited": "Unlimited",
+      "urgencyLabel": "Urgency",
+      "matchingRunning": "Matching running...",
+      "startMatching": "Start Matching",
+      "addContactPerson": "Add Contact Person",
+      "orderCategory": "Order Category",
+      "requirementsTitle": "Requirements for Provider",
+      "reviewAndSubmit": "Review and Submit",
+      "notProvided": "Not provided",
+      "noneSelected": "None selected",
+      "documents": "Documents",
+      "noDocumentsUploaded": "No documents uploaded",
+      "specializationsTitle": "Specializations & Fields",
+      "specializationsDescription": "Select the relevant fields and specializations for this order.",
+      "industrySelection": "Industry Selection",
+      "industrySelectionDescription": "Select the relevant industries for this order.",
+      "placementTypeTitle": "Type of Placement",
+      "placementTypeDescription": "Please select the type of placement for this order.",
+      "addCertification": "Add another certification",
+      "locationAndTime": "Location & Time",
+      "addressLabel": "Workplace / Project Address *",
+      "addressPlaceholder": "Enter street and house number (e.g. Sample Street 1, Berlin)...",
+      "gpsCoordinates": "GPS Coordinates",
+      "notAvailable": "Not available",
+      "maxDistance": "Maximum distance to provider",
+      "projectPeriod": "Project period",
+      "daysPlaceholder": "Enter days",
+      "days": "days",
+      "industries": "Industries",
+      "confirmAllCorrect": "I confirm that all information is correct and agree to the ",
+      "terms": "Terms & Conditions",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy",
+      "agreeTo": ".",
+      "publishing": "Publishing...",
+      "contactPerson": "Contact Person",
+      "saveAndClose": "Save & Close",
+      "orderDetail": {
+        "backToOverview": "Back to Overview",
+        "invalidProjectId": "Invalid project ID.",
+        "loadingOrderDetails": "Loading order details...",
+        "loadingProjectDetails": "Loading project details...",
+        "orderNotFound": "Order not found.",
+        "projectNotFound": "Project not found.",
+        "errorLoadingOrder": "Error loading order. Please try again later.",
+        "errorLoadingProject": "Error loading project. Please try again later.",
+        "demoProjectNotice": "Note: This is a demo project from sample data. Use \"Create Order\" for fully manageable orders.",
+        "editOrder": "Edit Order",
+        "viewProject": "View Project",
+        "deleteOrder": "Delete Order",
+        "description": "Description",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "deadline": "Deadline",
+        "clientCompany": "Client Company",
+        "orderAreas": "Order Areas",
+        "orderIndustry": "Order Industry",
+        "placementType": "Placement Type",
+        "certificationsForOrder": "Certifications for Order",
+        "noSpecialCertifications": "No special certifications required",
+        "viewClientProfile": "View Client Profile",
+        "extendDeadline": "Extend Deadline",
+        "markAsCompleted": "Mark as Completed",
+        "completionRequest": {
+          "providerMarkedCompleted": "The service provider has marked the order as completed",
+          "clientMarkedCompleted": "The client has marked the order as completed",
+          "completionMessage": "Completion message:",
+          "orderSuccessfullyCompleted": "Order was successfully completed",
+          "confirmedOn": "Confirmed on",
+          "completionRejected": "Completion was rejected",
+          "rejectedOn": "Rejected on",
+          "completionRequestCancelled": "Completion request was cancelled",
+          "cancelledOn": "Cancelled on",
+          "rejectionReason": "Reason for rejection:",
+          "confirmCompletion": "Confirm Completion",
+          "confirming": "Confirming...",
+          "rejectCompletion": "Reject",
+          "cancelRequest": "Cancel Request",
+          "cancelling": "Cancelling...",
+          "waitingForConfirmation": "Waiting for confirmation by the counterpart."
+        },
+        "deadlineExtension": {
+          "providerProposedExtension": "The service provider has proposed a deadline extension:",
+          "clientProposedExtension": "The client has proposed a deadline extension:",
+          "deadlineExtendedTo": "Deadline was extended to:",
+          "confirmedOn": "Confirmed on",
+          "deadlineExtensionRejected": "Deadline extension was rejected",
+          "rejectedOn": "Rejected on",
+          "deadlineExtensionCancelled": "Deadline extension proposal was cancelled",
+          "cancelledOn": "Cancelled on",
+          "rejectionReason": "Reason for rejection:",
+          "confirmDeadline": "Confirm Deadline",
+          "confirming": "Confirming...",
+          "rejectDeadline": "Reject",
+          "cancelProposal": "Cancel Proposal",
+          "cancelling": "Cancelling...",
+          "waitingForConfirmation": "Waiting for confirmation by the counterpart."
+        },
+        "documents": {
+          "title": "Order Documents",
+          "description": "Here you can find all documents uploaded for this order",
+          "emptyState": {
+            "title": "No Documents Available",
+            "description": "No documents have been uploaded for this order yet.",
+            "backendOrderMessage": "Documents are typically uploaded during order processing.",
+            "mockProjectMessage": "This is a demo project without real documents.",
+            "supportedFormats": "Supported file formats: PDF, Word, Excel, PowerPoint, Images"
+          },
+          "loading": "Loading documents...",
+          "error": {
+            "loadFailed": "Error loading documents",
+            "loadFailedDescription": "The documents could not be loaded. Please try again.",
+            "downloadFailed": "Download failed",
+            "downloadFailedDescription": "The document could not be downloaded. Please try again.",
+            "fileNotFound": "Document no longer available",
+            "networkError": "Network error while loading documents",
+            "serverError": "Server error while loading documents"
+          },
+          "actions": {
+            "download": "Download",
+            "downloading": "Downloading...",
+            "retry": "Try again",
+            "retryLoad": "Reload documents"
+          },
+          "fileInfo": {
+            "size": "Size",
+            "uploadDate": "Uploaded on",
+            "fileType": "File type"
+          }
+        },
+        "applications": {
+          "title": {
+            "client": "Applications",
+            "provider": "Applications"
+          },
+          "description": "Here you can find all applications for this order",
+          "emptyState": {
+            "title": "No Applications Available",
+            "description": "No applications have been submitted for this order yet.",
+            "noApplicationsClient": "No Applications Yet",
+            "noApplicationsClientDescription": "No applications have been received for this order yet. Service providers can apply through the order overview.",
+            "noApplicationsProvider": "No Applications Yet",
+            "noApplicationsProviderDescription": "No applications have been received for this order yet.",
+            "clientMessage": "Applications will be displayed here once service providers show interest in your order.",
+            "providerMessage": "You have not applied for this order yet."
+          },
+          "loading": "Loading applications...",
+          "loadingApplications": "Loading applications...",
+          "error": {
+            "loadFailed": "Error loading applications",
+            "loadFailedDescription": "The applications could not be loaded. Please try again.",
+            "networkError": "Network error while loading applications",
+            "serverError": "Server error while loading applications",
+            "actionFailed": "Action failed",
+            "acceptFailed": "Application could not be accepted",
+            "rejectFailed": "Application could not be rejected"
+          },
+          "status": {
+            "applied": "Applied",
+            "withdrawn": "Withdrawn",
+            "accepted": "Accepted",
+            "rejected": "Rejected"
+          },
+          "statusColors": {
+            "applied": "Blue",
+            "withdrawn": "Gray",
+            "accepted": "Green",
+            "rejected": "Red"
+          },
+          "actions": {
+            "accept": "Accept",
+            "reject": "Reject",
+            "accepting": "Accepting...",
+            "rejecting": "Rejecting...",
+            "retry": "Try again",
+            "retryLoad": "Reload applications"
+          },
+          "labels": {
+            "companyName": "Company",
+            "appliedAt": "Applied on",
+            "applicationDate": "Application Date",
+            "status": "Status",
+            "message": "Message",
+            "noMessage": "No message",
+            "yourApplication": "Your Application",
+            "awaitingResponse": "Awaiting Response",
+            "applicationsCount": "{count} Application(s)"
+          },
+          "confirmDialog": {
+            "acceptTitle": "Accept Application",
+            "acceptDescription": "Do you really want to accept this application? This action cannot be undone.",
+            "rejectTitle": "Reject Application",
+            "rejectDescription": "Do you really want to reject this application? This action cannot be undone.",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+          },
+          "accessibility": {
+            "applicationItem": "Application from {companyName}",
+            "statusBadge": "Status: {status}",
+            "applicationDate": "Applied on {date}",
+            "acceptButton": "Accept application from {companyName}",
+            "rejectButton": "Reject application from {companyName}"
+          }
+        }
+      },
+      "demoData": {
+        "electricalEngineering": "Electrical Engineering",
+        "mechanics": "Mechanics",
+        "agricultureAndResources": "Agriculture & Resources",
+        "manufacturingIndustry": "Manufacturing Industry",
+        "workContract": "Work Contract",
+        "iso14001Certified": "Certified for ISO 14001"
+      },
+      "dragFilesHere": "Drag files here or click to select",
+      "countryPlaceholder": "Select country",
+      "saving": "Saving..."
+    },
+    "additionalFields": {
+      "website": "Website (optional)",
+      "workRadius": "Work Radius (km)",
+      "workRadiusPlaceholder": "e.g. 50",
+      "country": "Country",
+      "countryPlaceholder": "Germany",
+      "address": "Address*",
+      "addressPlaceholder": "Enter street and house number...",
+      "headquarters": "Company headquarters in Germany / Austria*",
+      "headquartersPlaceholder": "Enter company address...",
+      "notifications": "Notifications",
+      "emailNotifications": "Receive email notifications",
+      "additionalInfo": "Additional Information & Consent",
+      "termsText": "I accept the",
+      "privacyText": "I have read the",
+      "privacyTextEnd": "and accept it.",
+      "passwordHint": "At least 8 characters, one uppercase letter, one lowercase letter and one number."
+    },
+    "reviews": {
+      "title": "Company Review",
+      "reviewsForOrder": "Reviews for this order",
+      "orderNumber": "Order number",
+      "reviewFor": "Review for",
+      "yourReview": "Your review",
+      "otherPartyReview": "Other party's review",
+      "reviewForProvider": "Provider",
+      "reviewForClient": "Client",
+      "alreadyReviewed": "You have already reviewed this order.",
+      "waitingForOtherParty": "Waiting for other party's review",
+      "waitingForOtherPartyDescription": "The other party has not yet submitted a review. Once both parties have reviewed, you can view all reviews.",
+      "reviewCompleted": "Review completed",
+      "reviewCompletedDescription": "You have already reviewed this order. Thank you for your feedback!",
+      "noPermission": "No permission",
+      "noPermissionDescription": "You are not authorized to review this order.",
+      "errorLoadingOrder": "Error loading order",
+      "errorLoadingOrderDescription": "The order could not be loaded.",
+      "submitReview": "Submit review",
+      "submitReviewSuccess": "Review successfully sent",
+      "submitReviewSuccessDescription": "Thank you for your review.",
+      "submitReviewError": "Error sending review",
+      "submitReviewErrorDescription": "Please try again.",
+      "back": "Back",
+      "categories": {
+        "communication": "Communication",
+        "responseTime": "Company response time",
+        "punctuality": "Punctuality",
+        "quality": "Work quality",
+        "budget": "Budget adherence",
+        "flexibility": "Flexibility",
+        "documentation": "Documentation and reporting",
+        "overallSatisfaction": "General satisfaction with the company"
+      },
+      "comments": {
+        "communication": "How transparent and effective was the communication?",
+        "responseTime": "How quickly were questions answered?",
+        "punctuality": "Were agreed deadlines and schedules reliably met?",
+        "quality": "Was the work carried out professionally, precisely and according to agreed standards?",
+        "budget": "Does the contractor stick to the budget or were there unexpected cost overruns?",
+        "flexibility": "How well was the response to changes or unforeseen challenges?",
+        "documentation": "Were project results and progress documented clearly and comprehensibly?",
+        "overallSatisfaction": "How satisfied were you overall with the company?"
+      },
+      "scoreLabels": {
+        "excellent": "Excellent",
+        "veryGood": "Very good",
+        "good": "Good",
+        "satisfactory": "Satisfactory",
+        "sufficient": "Sufficient",
+        "poor": "Poor",
+        "insufficient": "Insufficient",
+        "notRated": "Not rated"
+      },
+      "comment": "Comment",
+      "detailedReview": {
+        "title": "Detailed Project Review",
+        "backToProfile": "Back to Profile",
+        "projectReview": "Project Review",
+        "completed": "Completed",
+        "reviewCategories": "Review Categories",
+        "reviewBy": "Review for",
+        "as": "as",
+        "client": "Client",
+        "provider": "Provider",
+        "noReviewsAvailable": "No Reviews Available",
+        "noReviewsDescription": "No reviews are available for this project yet.",
+        "reviewNotFound": "Review Not Found",
+        "reviewNotFoundDescription": "The requested project review could not be found.",
+        "errorLoading": "Error Loading Review",
+        "retry": "Try Again",
+        "back": "Back",
+        "errors": {
+          "orderNotFound": "The specified project was not found.",
+          "reviewsNotFound": "No reviews are available for this project.",
+          "accessDenied": "You do not have permission to view these reviews.",
+          "networkError": "Network error. Please check your internet connection.",
+          "requestTimeout": "The request took too long. Please try again.",
+          "rateLimitExceeded": "Too many requests. Please wait a moment.",
+          "unknownError": "An unknown error occurred."
+        }
+      }
+    }
+  },
+  "Login": {
+    "title": "Login",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@company.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Your Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Stay Logged In",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "allRightsReserved": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "imprint": "Imprint"
+  },
+  "Unauthorized": {
+    "title": "Access Denied",
+    "description": "You do not have permission to visit this page.",
+    "details": "You may need special permissions or a different account type to access this resource.",
+    "backButton": "Back to Previous Page",
+    "dashboardButton": "Go to Dashboard",
+    "loginButton": "Login with Different Account",
+    "supportText": "If you have questions, please contact the administrator or support."
+  },
+  "VerifyEmail": {
+    "title": "Email Verification Required",
+    "verifyingTitle": "Verifying Email",
+    "verifyingDescription": "Please wait a moment while we verify your email address.",
+    "description": "Your account is almost ready. Please verify your email address to continue.",
+    "error": "Error",
+    "success": "Success",
+    "verifyingText": "Verifying...",
+    "emailVerified": "Your email address has been successfully verified. You can now log in.",
+    "verificationFailed": "Email verification failed.",
+    "resendDescription": "You can request a new confirmation email.",
+    "emailPlaceholder": "Your Email Address",
+    "resendButton": "Resend Confirmation Email",
+    "loginButton": "Go to Login",
+    "logoutButton": "Logout",
+    "emailSent": "A confirmation email has been sent to",
+    "emailNotReceived": "If you haven't received it, you can resend it.",
+    "resendConfirmation": "Resend Confirmation",
+    "loading": "Loading...",
+    "loadingDescription": "Page is loading..."
+  },
+  "ForgotPassword": {
+    "title": "Forgot Password?",
+    "description": "Enter your email address and we'll send you a link to reset your password.",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@company.com",
+    "resetButton": "Reset Password",
+    "sending": "Sending...",
+    "backToLogin": "Back to Login",
+    "emailSentTitle": "Email Sent",
+    "emailSentDescription": "We have sent password reset instructions to",
+    "checkInbox": "Check your inbox and follow the instructions in the email.",
+    "emailNotReceived": "Email not received?",
+    "resend": "Resend",
+    "allRightsReserved": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "imprint": "Imprint"
+  },
+  "Hero": {
+    "title": "Your Partner for Nationwide",
+    "highlightedTitle": "Operational Services",
+    "subtitle": "Indusync efficiently connects companies and qualified service providers. Our platform enables transparent collaboration with the highest quality standards.",
+    "contactButton": "Contact Us Now",
+    "becomeProviderButton": "Become a Service Provider"
+  },
+  "AboutUs": {
+    "title": "About Us",
+    "description": "Indusync is your reliable partner for industrial services throughout Germany.",
+    "historyTitle": "Our History",
+    "historyP1": "Driven by the vision of efficiently connecting companies with qualified service providers, InduSync began as an ambitious startup. Today, our platform is firmly established in the field of industrial collaboration, linking specialist companies with complex projects.",
+    "historyP2": "Through our strong network, tailored matching algorithms, and verified references, we offer precisely targeted solutions for demanding industrial requirements. This ensures that you consistently benefit from the highest quality standards and reliable partnerships.",
+    "missionTitle": "Our Mission",
+    "missionP1": "With InduSync, we are creating a digital platform that connects companies and skilled trade businesses in just a few clicks – saving time, costs, and internal resources.",
+    "missionP2": "By working with verified partners and transparent processes, we enable efficient, reliable projects that drive sustainable success for all parties involved."
+  },
+  "SpecializedAreas": {
+    "title": "Our Advantages",
+    "description": "Discover our specialized areas for various industrial sectors.",
+    "card1Title": "Platform for Certified Professionals",
+    "card1Description": "At InduSync, you'll discover hand-picked specialist companies from a wide range of industries that meet our strict quality standards and have verified references. This ensures excellent results — without any direct mediation from our side.",
+    "card2Title": "Nationwide Presence",
+    "card2Description": "Benefit from tailor-made solutions for your company – regardless of location. Our network covers all of Germany and guarantees local expertise.",
+    "card3Title": "Strict Quality Control",
+    "card3Description": "Trust our multi-stage inspection process, which only admits first-class service providers. We guarantee reliable partnerships and top-level services.",
+    "card4Title": "Digital Access",
+    "card4Description": "Use our intuitive platform for seamless access to all projects. The digital infrastructure optimizes collaboration and increases the efficiency of your processes.",
+    "learnMore": "Learn more"
+  },
+  "Testimonials": {
+    "title": "References",
+    "description": "What our customers say about our services.",
+    "testimonial1": "Thanks to Indusync, we were able to significantly increase our production capacities. The quality of the brokered service providers is excellent.",
+    "client1Name": "Michael Schmidt",
+    "client1Role": "Technical Manager, TechPro GmbH",
+    "testimonial2": "As a service provider, Indusync has given us access to exciting projects. The platform is intuitive and communication is smooth.",
+    "client2Name": "Julia Müller",
+    "client2Role": "Managing Director, ElektroService GmbH",
+    "testimonial3": "The collaboration with Indusync exceeded our expectations. We were able to quickly find qualified specialists for our project.",
+    "client3Name": "Thomas Krause",
+    "client3Role": "Project Manager, IndustrieWerk AG"
+  },
+  "Services": {
+    "title": "Services",
+    "description": "Discover our comprehensive services for your business success.",
+    "service1Title": "Access to Reputable Clients",
+    "service1Description": "Expand your network with qualified partners and open up new business opportunities through verified contacts.",
+    "service2Title": "Expansion of Business Opportunities",
+    "service2Description": "Through nationwide networking and access to projects throughout Germany that match your skills.",
+    "service3Title": "Optimized Processes",
+    "service3Description": "For less administrative effort and more time for your core business through digitized processes and central project management.",
+    "service4Title": "Trust-Based Collaboration",
+    "service4Description": "Excellence and customer satisfaction are our top priorities. We create a basis for long-term business relationships."
+  },
+  "CTA": {
+    "title": "Ready for your next order?",
+    "description": "Register now and find qualified specialists for your projects or discover new orders for your company.",
+    "createOrderButton": "Create Order",
+    "becomeProviderButton": "Become a Service Provider"
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "description": "Let's discuss your requirements together and find the best solution. Our team is happy to assist you.",
+    "headquarters": "Headquarters",
+    "addressLine1": "",
+    "addressLine2": "91052 Erlangen",
+    "phone": "Phone",
+    "phoneNumber": "+49 (0) 30 123456789",
+    "email": "E-Mail",
+    "emailAddress": "info@indusync.eu",
+    "sendMessageTitle": "Send Message",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your Name",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "your.email@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your Message",
+    "sendMessageButton": "Send Message",
+    "sendingButton": "Sending...",
+    "successMessage": "Message sent successfully! We'll get back to you soon.",
+    "errorMessage": "Failed to send message. Please try again."
+  },
+  "Footer": {
+    "tagline": "Your partner for professional industrial services",
+    "aboutIndusyncTitle": "About Indusync",
+    "companyHistory": "Company History",
+    "imprint": "Imprint",
+    "career": "Career",
+    "blog": "Blog",
+    "newsletter": "Newsletter",
+    "customerSupportTitle": "Customer Support",
+    "contact": "Contact",
+    "partnerCompanies": "Partner Companies",
+    "corporateTraining": "Corporate Training",
+    "faq": "FAQ",
+    "ourGoal": "Our Goal",
+    "support": "Support",
+    "legalTitle": "Legal",
+    "privacy": "Privacy",
+    "agb": "Terms",
+    "cookiePolicy": "Cookie Policy",
+    "copyright": "© {new Date().getFullYear()} Indusync. All rights reserved."
+  },
+  "Orders": {
+    "columns": {
+      "title": "Order",
+      "status": "Status",
+      "location": "Location",
+      "timeline": "Timeline",
+      "budget": "Budget",
+      "applications": "Applications",
+      "distance": "Distance"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "duplicate": "Duplicate",
+      "matches": "View Matches"
+    },
+    "ongoing": "Ongoing",
+    "created": "Created"
+  },
+  "Employees": {
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "joinedAt": "Joined",
+      "lastActive": "Last Active"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "deactivate": "Deactivate"
+    }
+  },
+  "Registration": {
+    "login": "Login",
+    "back": "Back",
+    "register": "Register",
+    "description": "Create an account and use all the benefits of Indusync.",
+    "alreadyRegistered": "Already registered?",
+    "hereLogin": "Login here",
+    "success": {
+      "title": "Registration successful",
+      "description": "Your account has been successfully created. You will be redirected shortly."
+    },
+    "error": {
+      "registrationTitle": "Registration Error",
+      "registrationFailed": "Registration failed",
+      "validationTitle": "Validation Error",
+      "validationDescription": "Please check your inputs."
+    },
+    "validation": {
+      "emailPasswordRequired": "Email, password and password confirmation are required",
+      "passwordMismatch": "Password and password confirmation do not match",
+      "termsPrivacyRequired": "Terms and conditions and privacy policy must be accepted",
+      "termsRequired": "You must agree to the terms and conditions.",
+      "privacyRequired": "You must agree to the privacy policy.",
+      "fieldRequired": "{field} is required.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordLength": "Password must be at least 8 characters long.",
+      "invalidPhone": "Please enter a valid phone number.",
+      "invalidPostalCode": "Postal code must have 5 digits.",
+      "validationErrorsTitle": "{count} validation errors found",
+      "validationErrorsDescription": "Please check: {fields}",
+      "stepValidatedTitle": "Step validated",
+      "stepValidatedDescription": "All fields are correctly filled.",
+      "pleaseSelect": "Please select"
+    },
+    "fields": {
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "companyName": "Company Name",
+      "companyType": "Company Type",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "street": "Street",
+      "postalCode": "Postal Code",
+      "city": "City",
+      "phone": "Phone Number",
+      "companyDetailsName": "Company Name",
+      "companyAddress": "Company Address",
+      "companyPostalCode": "Company Postal Code",
+      "companyCity": "Company City",
+      "employeeCount": "Number of Employees",
+      "companyDescription": "Company Description",
+      "termsAccepted": "Terms and Conditions",
+      "privacyAccepted": "Privacy Policy"
+    },
+    "footer": {
+      "rights": "All rights reserved.",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "imprint": "Imprint"
+    },
+    "steps": {
+      "accountSetup": "Account Setup",
+      "profileDetails": "Profile Details",
+      "contractorDetails": "Contractor Details",
+      "finalize": "Finalize"
+    },
+    "navigation": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Complete Registration",
+      "submitting": "Submitting...",
+      "stepOf": "Step {current} of {total}: {name}"
+    },
+    "companyTypes": {
+      "einzelunternehmen": "Sole Proprietorship",
+      "gbr": "General Partnership",
+      "gmbh": "Limited Liability Company",
+      "ag": "Public Limited Company",
+      "ug": "Private Limited Company",
+      "ohg": "General Partnership",
+      "kg": "Limited Partnership",
+      "gmbh_co_kg": "Limited Partnership with LLC as General Partner",
+      "other": "Other"
+    },
+    "companyRoles": {
+      "client": "Client",
+      "contractor": "Contractor",
+      "iAm": "I am..."
+    },
+    "specializations": {
+      "title": "Contract Areas",
+      "description": "Select the relevant specialist areas and specializations for your company.",
+      "elektrotechnik": "Electrical Engineering",
+      "mechanik": "Mechanics / Steel Construction",
+      "programmierung": "Programming",
+      "anlagenbau": "Plant Engineering",
+      "mechatronik": "Mechatronics",
+      "automatisierung": "Automation Technology",
+      "wartung": "Maintenance & Servicing",
+      "beratung": "Consulting & Planning",
+      "datentechnik": "Data Technology",
+      "automatisierungstechnik": "Automation Technology",
+      "antriebstechnik": "Drive Technology",
+      "schaltschrankbau": "Control Cabinet Construction",
+      "beleuchtungstechnik": "Lighting Technology",
+      "sps": "PLC",
+      "knx": "KNX",
+      "dasy": "DASY",
+      "logo": "LOGO",
+      "scada": "SCADA Systems",
+      "energietechnik": "Energy Technology",
+      "elektrospeicher": "Electrical Storage",
+      "ladestation": "Charging Stations",
+      "kommunikationstechnik": "Communication Technology",
+      "regelungstechnik": "Control Technology",
+      "messtechnik": "Measurement Technology",
+      "mikrosystemtechnik": "Microsystem Technology",
+      "hochfrequenztechnik": "High Frequency Technology",
+      "sensortechnik": "Sensor Technology",
+      "erneuerbare_energien": "Renewable Energy",
+      "wind": "Wind",
+      "solar": "Solar",
+      "wasserkraft": "Hydropower",
+      "ladestationen": "Charging Stations",
+      "kabelverlegung": "Cable Installation",
+      "kraftwerkstechnik": "Power Plant Technology",
+      "sonderleistung": "Special Services",
+      "robotik": "Robotics",
+      "hydraulik": "Hydraulics",
+      "pneumatik": "Pneumatics",
+      "maschinenbau": "Mechanical Engineering",
+      "blechbearbeitung": "Sheet Metal Processing",
+      "stahlbau/Metallbau": "Steel Construction/Metal Construction",
+      "schweißen": "Welding",
+      "oberfläche": "Surface (Painting, Coating)",
+      "zerspannungstechnik": "Machining Technology",
+      "fluidtechnik": "Fluid Technology",
+      "thermodynamik": "Thermodynamics",
+      "industriekletterer": "Industrial Climber",
+      "maler_tapezierer_lackierer": "Painter, Wallpaperer & Painter",
+      "maler": "Painter",
+      "innenraummaler": "Interior Painter",
+      "fasadenmaler": "Facade Painter",
+      "dekorationsmaler": "Decoration Painter",
+      "denkmalschutzmaler": "Heritage Protection Painter",
+      "industriemaler": "Industrial Painter",
+      "lackierer": "Painter",
+      "fahrzeuglackierer": "Vehicle Painter",
+      "industrielackierer": "Industrial Painter",
+      "möbellackierer": "Furniture Painter",
+      "korrosionsschutzlackierer": "Corrosion Protection Painter",
+      "pulverbeschichter": "Powder Coater",
+      "tapezierer": "Wallpaperer",
+      "wandtapeten": "Wall Wallpaper",
+      "dekorative_wandverkleidungen": "Decorative Wall Coverings",
+      "textiltapezierer": "Textile Wallpaperer",
+      "glasfasertapeten": "Fiberglass Wallpaper",
+      "spezialtapeten": "Special Wallpaper",
+      "sanitärtechnik_heizsysteme": "Plumbing & Heating Systems",
+      "sanitärtechnik": "Plumbing",
+      "trinkwasserversorung_haupt": "Drinking Water Supply",
+      "gasinstallation": "Gas Installation",
+      "sanitäre_einrichtunge": "Sanitary Facilities",
+      "wasseraufbereitung": "Water Treatment",
+      "rohrverlegung_tw": "Pipe Installation (Drinking Water)",
+      "trinkwasser_anlagenbau": "Drinking Water Plant Construction",
+      "heizsysteme": "Heating Systems",
+      "zentralheizung": "Central Heating",
+      "fußbodenheizung": "Underfloor Heating",
+      "wärmepumpen": "Heat Pumps",
+      "solarthermie": "Solar Thermal",
+      "fernwärme": "District Heating",
+      "pelletheizung": "Pellet Heating",
+      "gasheizung": "Gas Heating",
+      "ölheizung": "Oil Heating",
+      "infrarotheizung": "Infrared Heating",
+      "trockenbau": "Drywall Construction",
+      "wand_und_deckenbekleidung": "Wall and Ceiling Coverings",
+      "trennwände": "Partition Walls",
+      "schallschutz": "Sound Insulation",
+      "brandschutz": "Fire Protection",
+      "dämmung": "Insulation",
+      "deckenabhängung": "Ceiling Suspension",
+      "bodenbeläge": "Floor Coverings",
+      "trockenputz": "Dry Plaster",
+      "akustik": "Acoustic Ceilings & Walls",
+      "maurerarbeiten": "Masonry Work",
+      "fundament_grundmauer": "Foundation & Base Wall",
+      "wände_trennwände": "Walls & Partition Walls",
+      "kamine_schornsteine": "Chimneys & Chimneys",
+      "gewölbe_bogen": "Vaults & Arches",
+      "verputzarbeiten": "Plastering Work",
+      "treppenbau": "Stair Construction",
+      "außenanlagen": "Outdoor Facilities",
+      "sanierung_restaurierung": "Renovation & Restoration",
+      "gerätetechnik": "Equipment Technology",
+      "kuchengeräte": "Kitchen Appliances",
+      "haushaltsgeräte": "Household Appliances",
+      "elektrowerkzeuge": "Power Tools",
+      "medizinische_geräte": "Medical Equipment",
+      "unterhaltungselektronik": "Consumer Electronics",
+      "telekommunikationsgeräte": "Telecommunications Equipment",
+      "garten_outdoor_geräte": "Garden/Outdoor Equipment",
+      "büro_geräte": "Office Equipment",
+      "klimatechnik_lüftung": "Climate Technology & Ventilation",
+      "mess_prüfgeräte": "Measurement & Testing Equipment",
+      "home_automation": "Smart Home & Home Automation",
+      "industrielle_geräte": "Industrial Equipment",
+      "förderbänder": "Conveyor Belts",
+      "roboter": "Robots",
+      "produktionsmaschinen": "Production Machines",
+      "präventiver_brandschutz": "Preventive Fire Protection",
+      "baulich": "Structural Fire Protection",
+      "anlagentechnisch": "Technical Fire Protection",
+      "organisatorisch": "Organizational Fire Protection",
+      "brandabschottung": "Fire Compartmentation",
+      "feuerlöschsysteme": "Fire Extinguishing Systems",
+      "einsatzorte": "Deployment Locations",
+      "industrieanlagen": "Industrial Facilities",
+      "historische_gebäude": "Historic Buildings",
+      "wohnungsbau": "Residential Construction",
+      "verkehr": "Transport (Trains, Aircraft, Ships)",
+      "umzüge_logistik": "Moves & Logistics",
+      "privatumzüge": "Private Moves",
+      "lokal": "Local Moves",
+      "national": "National Moves",
+      "international": "International Moves",
+      "miet_lkw_service": "Rental Truck Service",
+      "gewerbeumzüge": "Commercial Moves",
+      "büro": "Office Moves",
+      "industrie_fabrik": "Industrial & Factory Moves",
+      "server": "Server & Data Center Moves",
+      "labor": "Laboratory & Library Moves",
+      "messe_event": "Trade Show & Event Logistics",
+      "messauf_abbau": "Trade Show Setup & Dismantling",
+      "event_service": "Event Service",
+      "entsorgung_recycling": "Disposal & Recycling",
+      "möbelentsorgung": "Furniture Disposal",
+      "elektroschrott_recycling": "Electronic Waste Recycling",
+      "baustellenentsorgung": "Construction Site Disposal",
+      "schwer_spezial": "Heavy & Special Transport"
+    },
+    "industries": {
+      "title": "Industries",
+      "description": "Select the industries in which your company operates.",
+      "plantEngineering": "Plant Engineering",
+      "healthcare": "Healthcare",
+      "agricultureResources": "Agriculture and Resources",
+      "agricultureForestry": "Agriculture and Forestry",
+      "mining": "Mining",
+      "manufacturing": "Manufacturing Industry",
+      "automotive": "Automotive Industry",
+      "mechanicalEngineering": "Mechanical Engineering",
+      "chemical": "Chemical Industry",
+      "electrical": "Electrical Engineering and Electronics",
+      "metal": "Metal Industry",
+      "plastics": "Plastics Industry",
+      "paperPrinting": "Paper and Printing Industry",
+      "textileClothing": "Textile and Clothing Industry",
+      "foodBeverage": "Food and Beverage Industry",
+      "pharmaceutical": "Pharmaceutical Industry",
+      "medicalTechnology": "Medical Technology",
+      "agriculturalTechnology": "Agricultural Technology",
+      "constructionInfrastructure": "Construction and Infrastructure",
+      "construction": "Construction",
+      "buildingConstruction": "Building Construction",
+      "civilEngineering": "Civil Engineering",
+      "shipbuilding": "Shipbuilding and Maritime Industry",
+      "energyEnvironment": "Energy and Environment",
+      "energy": "Energy and Environment",
+      "renewableEnergy": "Renewable Energy",
+      "environmentalTechnology": "Environmental Technology",
+      "servicesTrade": "Services and Trade",
+      "retail": "Retail",
+      "logisticsTransport": "Logistics and Transport",
+      "tourismHospitality": "Tourism and Hospitality",
+      "financialServices": "Financial Services",
+      "education": "Education",
+      "creativeIndustry": "Creative Industry",
+      "sportsLeisure": "Sports and Leisure",
+      "recycling": "Recycling Industry",
+      "technologyInnovation": "Technology and Innovation",
+      "ict": "Information and Communication Technology (ICT)",
+      "biotechnology": "Biotechnology",
+      "aerospace": "Aerospace Industry",
+      "researchDevelopment": "Research and Development",
+      "other": "Other",
+      "custom": "Custom Input"
+    },
+    "orderCategories": {
+      "title": "Order Categories",
+      "description": "Select the types of orders your company offers.",
+      "CONSTRUCTION": "New Construction Project",
+      "MAINTENANCE": "Maintenance",
+      "EMERGENCY_REPAIR": "Emergency Service",
+      "CONSULTING": "Consulting and Planning",
+      "MECHANICAL_ENGINEERING": "Assembly",
+      "ELECTRICAL_WORK": "Electrical Engineering",
+      "PLUMBING": "Plumbing",
+      "HVAC": "Heating/Ventilation/Air Conditioning",
+      "INDUSTRIAL_CLEANING": "Industrial Cleaning",
+      "WELDING": "Welding Work",
+      "PAINTING": "Painting/Coating",
+      "INSULATION": "Insulation",
+      "AUTOMATION": "Automation",
+      "INSTRUMENTATION": "Measurement Technology",
+      "SAFETY_INSPECTION": "Safety Inspection",
+      "CRANE_OPERATION": "Crane Service",
+      "SCAFFOLDING": "Scaffolding",
+      "CONFINED_SPACE": "Tank Work",
+      "HEIGHT_WORK": "Height Work",
+      "SHUTDOWN_MAINTENANCE": "Shutdown Maintenance",
+      "OTHER": "Other"
+    },
+    "fileUpload": {
+      "browse": "Browse",
+      "selectedFile": "Selected file: {name} ({size} MB)",
+      "companyVerification": "Please upload a company verification document here*",
+      "companyCertificates": "Please upload your company certificates here",
+      "verificationPlaceholder": "Please upload your company verification document here",
+      "certificatesPlaceholder": "Please upload your company certificates here"
+    },
+    "additionalFields": {
+      "website": "Website (optional)",
+      "workRadius": "Work Radius (km)",
+      "workRadiusPlaceholder": "e.g. 50",
+      "country": "Country",
+      "countryPlaceholder": "Germany",
+      "address": "Address*",
+      "addressPlaceholder": "Enter street and house number...",
+      "headquarters": "Company headquarters in Germany / Austria*",
+      "headquartersPlaceholder": "Enter company address...",
+      "notifications": "Notifications",
+      "emailNotifications": "Receive email notifications",
+      "additionalInfo": "Additional Information & Consent",
+      "termsText": "I accept the",
+      "privacyText": "I have read the",
+      "privacyTextEnd": "and accept it.",
+      "passwordHint": "At least 8 characters, one uppercase letter, one lowercase letter and one number."
+    }
+  },
+  "ServiceProviderDetails": {
+    "backToRequests": "Back to Requests",
+    "scoreAndHistoryTitle": "Order Fulfillment Score & History",
+    "points": "Points",
+    "uploadedDocumentsTitle": "Uploaded Documents",
+    "pastProjectsTitle": "Past Projects",
+    "projectName": "Project Name",
+    "date": "Date",
+    "rating": "Rating",
+    "status": "Status",
+    "contactPersonTitle": "Contact Person",
+    "createOrder": "Create Order",
+    "sendRequest": "Send Request",
+    "back": "Back",
+    "location": "Headquarters in Frankfurt",
+    "metrics": {
+      "communication": "Communication",
+      "responseTime": "Company Response Time",
+      "punctuality": "Punctuality",
+      "quality": "Work Quality",
+      "budget": "Budget Adherence",
+      "flexibility": "Flexibility",
+      "documentation": "Documentation and Reporting",
+      "overallRating": "Overall Rating"
+    },
+    "contactPerson": {
+      "position": "Managing Director"
+    },
+    "documents": {
+      "companyProfile": "Company Profile.pdf",
+      "projectPortfolio": "Project Portfolio.pdf",
+      "certifications": "Certifications.pdf",
+      "references": "References.pdf"
+    },
+    "pastProjects": {
+      "factoryAutomation": "Factory Automation",
+      "sensorInstallation": "Sensor Installation",
+      "mqttApplication": "MQTT Application",
+      "completed": "Completed"
+    },
+    "errors": {
+      "companyNotFound": "Company not found or not available."
+    },
+    "retry": "Retry",
+    "more": "more",
+    "completionRate": "Completion Rate",
+    "companyInformation": "Company Information",
+    "founded": "Founded",
+    "employees": "Employees",
+    "industries": "Industries",
+    "insurance": "Insurance",
+    "covered": "Covered",
+    "notCovered": "Not Covered",
+    "termsConditions": "Terms & Conditions"
+  },
+  "Profile": {
+    "title": "My Profile",
+    "loading": "Loading profile...",
+    "profilePicture": {
+      "alt": "Profile picture",
+      "change": "Change",
+      "selected": "Selected: {filename}",
+      "previewUpdated": "Profile picture preview updated. Save profile details to apply the change."
+    },
+    "personalDetails": {
+      "title": "Personal Details",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email (read-only)",
+      "emailNote": "The email address cannot be changed.",
+      "phone": "Phone",
+      "phonePlaceholder": "e.g. +49 30 12345678",
+      "website": "Website",
+      "websitePlaceholder": "https://www.example.com",
+      "save": "Save Profile Details",
+      "saving": "Saving...",
+      "successMessage": "Profile details successfully updated."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "emailNotifications": "Email notifications",
+      "save": "Save Settings",
+      "saving": "Saving...",
+      "successMessage": "Notification settings successfully updated!"
+    },
+    "passwordChange": {
+      "title": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "passwordHint": "At least 8 characters long.",
+      "save": "Save Password",
+      "saving": "Saving...",
+      "successMessage": "Password successfully changed."
+    },
+    "validation": {
+      "firstNameRequired": "First name cannot be empty",
+      "firstNameTooShort": "First name must be at least 2 characters long",
+      "firstNameInvalidChars": "First name may contain only letters, spaces, hyphens and apostrophes",
+      "firstNameTooLong": "First name cannot be longer than 100 characters",
+      "lastNameRequired": "Last name cannot be empty",
+      "lastNameTooShort": "Last name must be at least 2 characters long",
+      "lastNameInvalidChars": "Last name may contain only letters, spaces, hyphens and apostrophes",
+      "lastNameTooLong": "Last name cannot be longer than 100 characters",
+      "phoneTooLong": "Phone number cannot be longer than 20 characters",
+      "phoneTooShort": "Phone number must be at least 5 characters long",
+      "phoneInvalidChars": "Phone number contains invalid characters. Allowed: digits, +, -, (, ), spaces, . and /",
+      "websiteTooLong": "Website cannot be longer than 255 characters",
+      "websiteInvalid": "Website must be a valid URL (e.g. example.com or https://example.com)",
+      "websiteInvalidProtocol": "Website must use http:// or https://",
+      "websiteInvalidDomain": "Website must contain a valid domain",
+      "currentPasswordRequired": "Current password cannot be empty",
+      "newPasswordRequired": "New password cannot be empty",
+      "passwordTooShort": "Password must be at least 8 characters long",
+      "confirmPasswordRequired": "Password confirmation cannot be empty",
+      "passwordMismatch": "New password and confirmation do not match",
+      "currentPasswordIncorrect": "The current password is incorrect",
+      "passwordConfirmationMismatch": "The password confirmation does not match",
+      "passwordRequirements": "The new password does not meet security requirements",
+      "formErrorsMessage": "Please correct the errors in the form fields.",
+      "validatingMessage": "Validating..."
+    },
+    "errors": {
+      "profileUpdateFailed": "Error updating profile details.",
+      "notificationUpdateFailed": "Error updating notification settings.",
+      "passwordChangeFailed": "Error changing password."
+    },
+    "companyMembership": {
+      "title": "Company Membership",
+      "noMembership": "No active company membership found",
+      "role": "Role:",
+      "memberSince": "Member since:",
+      "primaryContact": "Primary Contact",
+      "permissions": "Permissions",
+      "roles": {
+        "CLIENT": "Client",
+        "PROVIDER": "Service Provider",
+        "BOTH": "Both",
+        "OWNER": "Owner",
+        "ADMIN": "Administrator",
+        "MANAGER": "Manager",
+        "EMPLOYEE": "Employee",
+        "VIEWER": "Viewer"
+      },
+      "permissionNames": {
+        "CREATE_ORDERS": "Create Orders",
+        "MANAGE_EMPLOYEES": "Manage Employees",
+        "ASSIGN_PROJECTS": "Assign Projects",
+        "VIEW_FINANCIALS": "View Financials",
+        "MANAGE_COMPANY_SETTINGS": "Manage Company Settings"
+      }
+    },
+    "companyDocuments": {
+      "title": "Company Documents",
+      "description": "Documents uploaded during company registration",
+      "noDocuments": "No documents uploaded during registration",
+      "categories": {
+        "legalDocuments": "Legal Documents",
+        "certifications": "Certifications",
+        "otherDocuments": "Other Documents"
+      },
+      "documentTypes": {
+        "verification": "Verification Document",
+        "certificates": "Certificates",
+        "certificationItem": "Certification",
+        "other": "Other Document"
+      },
+      "actions": {
+        "view": "View",
+        "download": "Download",
+        "downloading": "Downloading...",
+        "close": "Close",
+        "openInNewTab": "Open in New Tab",
+        "retryLoad": "Reload Document",
+        "downloadSuccess": "Download Started",
+        "downloadSuccessDescription": "has been downloaded successfully"
+      },
+      "loading": "Loading document...",
+      "previewNotAvailable": "Preview not available for this file type",
+      "error": {
+        "loadFailed": "Failed to load document",
+        "downloadFailed": "Download failed",
+        "downloadFailedDescription": "The document could not be downloaded. Please try again.",
+        "fileNotFound": "Document not found or no longer available"
+      }
+    }
+  },
+  "CompanyRatings": {
+    "title": "Ratings & Reviews",
+    "summary": {
+      "description": "Based on {totalReviews} reviews from {completedOrders} completed orders"
+    },
+    "statistics": {
+      "reviews": "{count} reviews",
+      "completedProjects": "{count} completed projects"
+    },
+    "categories": {
+      "title": "Rating Categories",
+      "description": "Detailed breakdown of performance in different areas",
+      "topCategories": "Top Categories",
+      "communication": "Communication",
+      "responseTime": "Response Time",
+      "punctuality": "Punctuality",
+      "quality": "Work Quality",
+      "budget": "Budget Compliance",
+      "flexibility": "Flexibility",
+      "documentation": "Documentation",
+      "overallSatisfaction": "Overall Satisfaction"
+    },
+    "projects": {
+      "title": "Recent Projects",
+      "description": "The latest completed projects with ratings",
+      "showAll": "Show All",
+      "reviewedBy": "by {company}",
+      "noRating": "No Rating"
+    },
+    "roles": {
+      "client": "Client",
+      "provider": "Service Provider"
+    },
+    "qualityLevels": {
+      "notRated": "Not Rated",
+      "excellent": "Excellent",
+      "veryGood": "Very Good",
+      "good": "Good",
+      "satisfactory": "Satisfactory",
+      "sufficient": "Sufficient",
+      "poor": "Poor",
+      "inadequate": "Inadequate"
+    },
+    "errors": {
+      "loadingError": "Error loading ratings",
+      "retry": "Try Again",
+      "companyNotFound": "The specified company was not found.",
+      "accessDenied": "You do not have permission to view these ratings.",
+      "networkError": "Network error. Please check your internet connection.",
+      "requestTimeout": "The request took too long. Please try again.",
+      "rateLimitExceeded": "Too many requests. Please wait a moment.",
+      "unknownError": "An unknown error occurred."
+    },
+    "empty": {
+      "title": "No Ratings Yet",
+      "description": "This company has not received any ratings yet. Ratings will be visible after completing orders."
+    },
+    "common": {
+      "notAvailable": "N/A"
+    }
+  },
+  "termsConditions": {
+    "viewTermsConditions": "View Terms & Conditions",
+    "downloadTermsConditions": "Download Terms & Conditions",
+    "official": "Official",
+    "accessSuccess": "Access recorded",
+    "accessSuccessDescription": "You are viewing {companyName}'s Terms & Conditions.",
+    "error": {
+      "noDocument": "No T&C available",
+      "noDocumentDescription": "This company has not uploaded Terms & Conditions yet.",
+      "accessFailed": "Could not open document",
+      "loadFailed": "Failed to load T&C",
+      "downloadFailed": "Download failed",
+      "downloadFailedDescription": "The document could not be downloaded.",
+      "fileNotFound": "File not found"
+    },
+    "downloadSuccess": "Download started",
+    "downloadSuccessDescription": "The document '{fileName}' is being downloaded.",
+    "viewerTitle": "{companyName} - Terms & Conditions",
+    "officialDocument": "Official Document",
+    "lastUpdated": "Last updated",
+    "version": "Version",
+    "loading": "Loading...",
+    "retryLoad": "Retry load",
+    "openInNewTab": "Open in new tab",
+    "accessTracked": "Access tracked",
+    "downloading": "Downloading...",
+    "download": "Download",
+    "close": "Close",
+    "uploading": "Uploading",
+    "complete": "Complete",
+    "fileSelected": "File selected",
+    "upload": "Upload",
+    "dragDropOrClick": "Drag and drop file here or click to select",
+    "fileRequirements": "Maximum size: {maxSize}, Allowed formats: {types}",
+    "browseFiles": "Browse files",
+    "uploadSuccess": "T&C uploaded successfully",
+    "uploadSuccessDescription": "The document '{fileName}' has been uploaded successfully.",
+    "uploadError": "Upload error"
+  }
+}
