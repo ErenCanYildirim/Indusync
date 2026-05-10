@@ -1,0 +1,329 @@
+name: Dependency Vulnerability Scan
+
+on:
+  push:
+    branches: [ secops ]
+
+env:
+    JAVA_VERSION: '24'
+    SEVERITY_THRESHOLD: HIGH
+    #NVD_API_KEY: add later to improve OWASP
+
+jobs:
+    dependency-scan:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            
+            - name: Setup JDK 24
+              uses: actions/setup-java@v4
+              with:
+                java-version: ${{ env.JAVA_VERSION }}
+                distribution: 'oracle'
+            
+            - name: Create results directory
+              run: mkdir -p vulnerability-results
+
+            - name: Detect build system
+              id: detect-build
+              run: |
+                echo "Detecting Java build system..."
+
+                build_system=""
+                if [ -f "pom.xml" ]; then
+                    echo "Maven project detected"
+                    build_system="maven"
+                elif [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+                    echo "Gradle project detected"
+                    build_system="gradle"
+                else
+                    echo "No recognized build system found"
+                    exit 1
+                fi
+
+                echo "build_system=$build_system" >> $GITHUB_OUTPUT
+
+            - name: Cache Maven dependencies
+              if: steps.detect-build.outputs.build_system == 'maven'
+              uses: actions/cache@v4
+              with:
+                path: ~/.m2/repository
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml' )}}
+                restore-keys: |
+                    ${{ runner.os }}-maven-
+
+            - name: Cache Gradle dependencies
+              if: steps.detect-build.outputs.build_system == 'gradle'
+              uses: actions/cache@v4
+              with:
+                path: |
+                    ~/.gradle/caches
+                    ~/.gradle/wrapper
+                key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+                restore-keys: |
+                    ${{ runner.os }}-gradle-
+            
+            - name: Build project (Maven)
+              if: steps.detect-build.outputs.build_system == 'maven'
+              run: |
+                echo " Building Maven project..."
+                ./mvnw clean compile -DskipTests || mvn clean compile -DskipTests
+
+            - name: Build project (Gradle)
+              if: steps.detect-build.outputs.build_system == 'gradle'
+              run: |
+                echo " Building Gradle project..."
+                chmod +x gradlew
+                ./gradlew build -x test || gradle build -x test
+
+            - name: Maven dependency check
+              if: steps.detect-build.outputs.build-system == 'maven'
+              continue-on-error: true
+              run: |
+                echo "Running Maven dependency vulnerability check..."
+                
+                # add owasp dependency check plugin
+                if ! grep -q "dependency-check-maven" pom.xml; then
+                    echo "Adding OWASP dependency check plugin..."
+                    cp pom.xml pom.xml.backup
+                fi
+
+                # Run OWASP dependency check via Maven plugin
+                ./mvnw org.owasp:dependency-check-maven:8.4.3:check \
+                    -Dformat=JSON \
+                    -Dformat=HTML \
+                    -Dformat=XML \
+                    -DfailBuildOnCVSS=7 \
+                    -DsuppressJsonErrorMessages=false \
+                    -Dcentral.timeout=10000 \
+                    -DoutputDirectory=vulnerability-results/ || echo "Maven dependency check completed"
+                
+                # run maven versions plugin
+                ./mvnw versions:display-dependency-updates \
+                    -DoutputFile=vulnerability-results/maven-versions-report.txt \
+                    -DlogResults=true || echo "Maven versions check completed"
+
+            - name: Run Gradle dependency check
+              if: steps.detect-build.outputs.build_system == 'gradle'
+              continue-on-error: true
+              run: |
+                echo "Running Gradle dependency vulnerability check..."
+
+                cat >> build.gradle << 'EOF'
+
+                plugins {
+                    id 'org.owasp.dependencycheck' version '8.4.3'
+                }
+
+                dependencyCheck {
+                    formats = ['JSON', 'HTML', 'XML']
+                    outputDirectory = 'vulnerability-results'
+                    failBuildOnCVSS = 7
+                }
+                EOF
+
+                ./gradlew dependencyCheckAnalyze || echo "Gradle dependency check completed"
+                    
+                ./gradlew dependencyUpdates \
+                    --info > vulnerability-results/gradle-versions-report.txt || echo "Gradle versions check completed"
+            
+            - name: Run Trivy vulnerability scanner
+              continue-on-error: true
+              run: |
+                echo "Running Trivy scanner for additional coverage..."
+                docker run --rm v "$PWD:/workspace" \
+                    -v "$PWD/vulnerability-results:/results" \
+                    aquasec/trivy:latest fs /workspace \
+                    --format json \
+                    --output /results/trivy-results.json \
+                    --severity HIGH,CRITICAL \
+                    --ignore-unfixed \
+                    --scanners vuln || echo "Trivy scan completed"
+                
+                docker run --rm -v "$PWD:/workspace" \
+                    -v "$PWD/vulnerability-results:/results" \
+                    aquasec/trivy:latest fs /workspace \
+                    --format table \
+                    --output /results/trivy-report.txt \
+                    --severity HIGH,CRITICAL \
+                    --ignore-unfixed \
+                    --scanners vuln || echo "Trivy report generated"
+
+            - name: Check Spring Boot version and security advisories
+              run: |
+                echo " Checking Spring Boot version and security advisories..."
+                
+                # Extract Spring Boot version
+                if [ -f "pom.xml" ]; then
+                    spring_version=$(grep -oP '(?<=<spring-boot.version>).*?(?=</spring-boot.version>)' pom.xml || \
+                                grep -oP '(?<=<version>).*?(?=</version>)' pom.xml | head -1 || echo "unknown")
+                elif [ -f "build.gradle" ]; then
+                    spring_version=$(grep -oP "org.springframework.boot.*?['\"].*?['\"]" build.gradle | \
+                                grep -oP "[0-9]+\.[0-9]+\.[0-9]+" | head -1 || echo "unknown")
+                fi
+                
+                echo "SPRING_BOOT_VERSION=$spring_version" >> $GITHUB_ENV
+                echo " Detected Spring Boot version: $spring_version"
+                
+                # Create Spring-specific report section
+                cat > vulnerability-results/spring-boot-info.md << EOF
+                # Spring Boot Security Information
+                
+                **Detected Version:** $spring_version
+                **Java Version:** ${{ env.JAVA_VERSION }}
+                **Scan Date:** $(date)
+                
+                ## Recommendations
+                - Check [Spring Security Advisories](https://spring.io/security) for your version
+                - Consider upgrading to the latest stable release if vulnerabilities are found
+                - Review Spring Boot [migration guides](https://github.com/spring-projects/spring-boot/wiki) for major version upgrades
+                EOF
+            
+            - name: Process vulnerability results
+              run: |
+                echo " Processing vulnerability scan results..."
+                
+                total_vulns=0
+                critical_vulns=0
+                high_vulns=0
+                medium_vulns=0
+                low_vulns=0
+                
+                # Process OWASP Dependency Check results
+                if [ -f "vulnerability-results/dependency-check-report.json" ] && [ -s "vulnerability-results/dependency-check-report.json" ]; then
+                    echo "Processing OWASP Dependency Check results..."
+                    
+                    # Count vulnerabilities by severity
+                    owasp_critical=$(jq '[.dependencies[]?.vulnerabilities[]? | select(.severity == "CRITICAL")] | length' vulnerability-results/dependency-check-report.json 2>/dev/null || echo 0)
+                    owasp_high=$(jq '[.dependencies[]?.vulnerabilities[]? | select(.severity == "HIGH")] | length' vulnerability-results/dependency-check-report.json 2>/dev/null || echo 0)
+                    owasp_medium=$(jq '[.dependencies[]?.vulnerabilities[]? | select(.severity == "MEDIUM")] | length' vulnerability-results/dependency-check-report.json 2>/dev/null || echo 0)
+                    owasp_low=$(jq '[.dependencies[]?.vulnerabilities[]? | select(.severity == "LOW")] | length' vulnerability-results/dependency-check-report.json 2>/dev/null || echo 0)
+                    
+                    critical_vulns=$((critical_vulns + owasp_critical))
+                    high_vulns=$((high_vulns + owasp_high))
+                    medium_vulns=$((medium_vulns + owasp_medium))
+                    low_vulns=$((low_vulns + owasp_low))
+                fi
+                
+                # Process Trivy results
+                if [ -f "vulnerability-results/trivy-results.json" ] && [ -s "vulnerability-results/trivy-results.json" ]; then
+                    echo "Processing Trivy results..."
+                    trivy_critical=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length' vulnerability-results/trivy-results.json 2>/dev/null || echo 0)
+                    trivy_high=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length' vulnerability-results/trivy-results.json 2>/dev/null || echo 0)
+                    
+                    critical_vulns=$((critical_vulns + trivy_critical))
+                    high_vulns=$((high_vulns + trivy_high))
+                fi
+
+                total_vulns=$((critical_vulns + high_vulns + medium_vulns))
+          
+                echo "TOTAL_VULNERABILITIES=$total_vulns" >> $GITHUB_ENV
+                echo "CRITICAL_VULNERABILITIES=$critical_vulns" >> $GITHUB_ENV
+                echo "HIGH_VULNERABILITIES=$high_vulns" >> $GITHUB_ENV
+                echo "MEDIUM_VULNERABILITIES=$medium_vulns" >> $GITHUB_ENV
+                echo "LOW_VULNERABILITIES=$low_vulns" >> $GITHUB_ENV
+                
+                echo " Vulnerability Summary:"
+                echo " Total: $total_vulns | Critical: $critical_vulns | High: $high_vulns | Medium: $medium_vulns | Low: $low_vulns"
+                
+                # Create comprehensive summary report
+                cat > vulnerability-results/summary.md << EOF
+
+                ## Executive Summary
+                - **Total High+ Vulnerabilities:** $total_vulns
+                - **Critical:** $critical_vulns 
+                - **High:** $high_vulns 
+                - **Medium:** $medium_vulns 
+                - **Low:** $low_vulns 
+
+                # Environment
+                - **Spring Boot Version:** ${{ env.SPRING_BOOT_VERSION }}
+                - **Java Version:** JDK ${{ env.JAVA_VERSION }}
+                - **Build System:** ${{ steps.detect-build.outputs.build_system }}
+                - **Scan Date:** $(date)
+                - **Repository:** ${{ github.repository }}
+                - **Branch:** ${{ github.ref_name }}
+
+                ## Security Status
+                $(if [ "$total_vulns" -eq 0 ]; then
+                    echo " **Excellent!** No high-severity vulnerabilities detected in your Spring Boot dependencies."
+                elif [ "$critical_vulns" -gt 0 ]; then
+                    echo " **CRITICAL ACTION REQUIRED!** Critical vulnerabilities found that need immediate attention."
+                elif [ "$high_vulns" -gt 0 ]; then
+                    echo " **High-priority vulnerabilities detected.** Plan updates in your next sprint."
+                else
+                    echo "ℹ **Medium-severity vulnerabilities found.** Consider updating during regular maintenance."
+                fi)
+
+                1. Review detailed findings in the scan reports
+                2. Update vulnerable dependencies to latest secure versions
+                3. Test your Spring Boot application thoroughly after updates
+                4. Check [Spring Security Advisories](https://spring.io/security) for framework-specific issues
+                5. Consider implementing automated dependency updates with Dependabot
+                        
+                ## Scan Tools Used
+                - OWASP Dependency Check (Primary Java scanner)
+                - Trivy (Universal vulnerability scanner)
+                $(if [ -f "vulnerability-results/snyk-results.json" ]; then echo "- Snyk (Commercial vulnerability database)"; fi)
+                EOF
+
+            - name: Display Results Summary
+              run: |
+                echo "#  Spring Boot Dependency Vulnerability Scan" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "**Spring Boot Version:** ${{ env.SPRING_BOOT_VERSION }} | **Java:** JDK ${{ env.JAVA_VERSION }} | **Build:** ${{ steps.detect-build.outputs.build_system }}" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "| Severity | Count | Status | Action Required |" >> $GITHUB_STEP_SUMMARY
+                echo "|----------|-------|--------|--------------------|" >> $GITHUB_STEP_SUMMARY
+                echo "|  Critical | $CRITICAL_VULNERABILITIES | $(if [ "$CRITICAL_VULNERABILITIES" -eq 0 ]; then echo ' Clean'; else echo ' **URGENT**'; fi) | $(if [ "$CRITICAL_VULNERABILITIES" -eq 0 ]; then echo 'None'; else echo 'Immediate update'; fi) |" >> $GITHUB_STEP_SUMMARY
+                echo "|  High | $HIGH_VULNERABILITIES | $(if [ "$HIGH_VULNERABILITIES" -eq 0 ]; then echo ' Clean'; else echo ' **Priority**'; fi) | $(if [ "$HIGH_VULNERABILITIES" -eq 0 ]; then echo 'None'; else echo 'Plan update'; fi) |" >> $GITHUB_STEP_SUMMARY
+                echo "| ℹ Medium | $MEDIUM_VULNERABILITIES | $(if [ "$MEDIUM_VULNERABILITIES" -eq 0 ]; then echo ' Clean'; else echo 'ℹ Monitor'; fi) | $(if [ "$MEDIUM_VULNERABILITIES" -eq 0 ]; then echo 'None'; else echo 'Next maintenance'; fi) |" >> $GITHUB_STEP_SUMMARY
+                echo "|  Low | $LOW_VULNERABILITIES |  | Optional update |" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                
+                if [ "$TOTAL_VULNERABILITIES" -gt 0 ]; then
+                    echo "##  Detailed Findings" >> $GITHUB_STEP_SUMMARY
+                    echo "" >> $GITHUB_STEP_SUMMARY
+                    
+                    # Show OWASP results if available
+                    if [ -f "vulnerability-results/dependency-check-report.html" ]; then
+                    echo " **Primary Report:** [OWASP Dependency Check HTML Report](../vulnerability-scan-results-${{ github.run_number }}/dependency-check-report.html)" >> $GITHUB_STEP_SUMMARY
+                    echo "" >> $GITHUB_STEP_SUMMARY
+                    fi
+                    
+                    # Show top vulnerabilities from OWASP report
+                    if [ -f "vulnerability-results/dependency-check-report.json" ]; then
+                    echo "###  Top Priority Vulnerabilities" >> $GITHUB_STEP_SUMMARY
+                    echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+                    jq '.dependencies[] | select(.vulnerabilities != null) | {fileName, vulnerabilities: [.vulnerabilities[] | select(.severity == "CRITICAL" or .severity == "HIGH") | {name, severity, description: .description[0:100]}]}' vulnerability-results/dependency-check-report.json | head -20 >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No high-priority vulnerabilities in JSON format"
+                    echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+                    fi
+                else
+                    echo " **Congratulations!** Your Spring Boot application dependencies are secure!" >> $GITHUB_STEP_SUMMARY
+                fi
+
+            - name: Fail build on critical vulnerabilities
+              if: env.CRITICAL_VULNERABILITIES > 0
+              run: |
+                echo " BUILD FAILED: Critical vulnerabilities detected!"
+                echo "Critical vulnerabilities: ${{ env.CRITICAL_VULNERABILITIES }}"
+                echo "High vulnerabilities: ${{ env.HIGH_VULNERABILITIES }}"
+                echo ""
+                echo " Action required:"
+                echo "1. Review the OWASP Dependency Check report"
+                echo "2. Update vulnerable dependencies immediately"
+                echo "3. Test your Spring Boot application"
+                echo "4. Re-run this scan to verify fixes"
+                exit 1
+
+            -  name: Upload vulnerability reports
+               uses: actions/upload-artifact@v4
+               if: always()
+               with:
+                    name: vulnerability-scan-results-${{ github.run_number }}
+                    path: vulnerability-results/
+                    retention-days: 30

@@ -1,0 +1,125 @@
+name: OWASP ZAP Security Scan
+
+on:
+    push:
+        branches: [ secops ]
+    
+jobs:
+    zap-scan:
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgis/postgis:17-3.5-alpine
+                env:
+                    POSTGRES_DB: indusync_db
+                    POSTGRES_USER: admin
+                    POSTGRES_PASSWORD: secret
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+        
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up JDK 24
+          uses: actions/setup-java@v4
+          with:
+            java-version: '24'
+            distribution: 'temurin'
+
+        - name: Cache Maven dependencies
+          uses: actions/cache@v3
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2
+
+        - name: Build Spring Boot application
+          run: |
+            chmod +x ./mvnw
+            ./mvnw clean package -Dmaven.test.skip=true
+
+        - name: Install PostgreSQL client
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+          
+        #database must be cleaned before starting as the flyway migration is starting
+        #to reinitialize tables that were created in a previous run
+        - name: Clean database
+          run: |
+            #wait for postgres
+            until pg_isready -h localhost -p 5432 -U admin; do
+              echo "Waiting for postgres..."
+              sleep 1
+            done
+
+            # Drop and recreate the database
+            PGPASSWORD=secret psql -h localhost -p 5432 -U admin -d postgres -c "DROP DATABASE IF EXISTS indusync_db;"
+            PGPASSWORD=secret psql -h localhost -p 5432 -U admin -d postgres -c "CREATE DATABASE indusync_db;"
+
+        - name: Start Spring Boot application
+          run: |
+            #set env vars
+            export DATABASE_URL=jdbc:postgresql://localhost:5432/indusync_db
+            export DATABASE_USERNAME=admin
+            export DATABASE_PASSWORD=secret
+            export DATABASE_FLYWAY_ENABLED=false
+            export SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
+
+            #starts app in background
+            java -jar target/*.jar &
+
+            echo "Waiting for app to start..."
+            for i in {1..60}; do
+                if curl -s http://localhost:8080/api/ | grep -q "404\|200\|401\|403"; then
+                    echo "Application is ready!"
+                    break
+                fi
+                if [ $i -eq 60 ]; then
+                    echo "Application failed to start within 60 seconds"
+                    exit 1
+                fi
+                sleep 1
+            done
+          env:
+            DATABASE_URL: jdbc:postgresql://localhost:5432/indusync_db
+            DATABASE_USERNAME: admin
+            DATABASE_PASSWORD: secret
+            SPRING_FLYWAY_ENABLED: false
+        
+        - name: Run OWASP ZAP Baseline Scan
+          run: |
+            docker run -v ${{ github.workspace }}:/zap/wrk/:rw --network=host \
+              ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+              -t http://localhost:8080/api \
+              -I \
+              -a || exit 0
+                
+        - name: Run OWASP ZAP Full Scan
+          run: |
+            docker run -v ${{ github.workspace }}:/zap/wrk/:rw --network=host \
+              ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py \
+              -t http://localhost:8080/api \
+              -c .zap/rules.tsv \
+              -I \
+              -a || exit 0
+                
+        - name: Upload ZAP Reports
+          uses: actions/upload-artifact@v4
+          if: always()
+          with:
+            name: zap-reports
+            path: |
+              baseline_report.html
+              baseline_report.json
+              baseline_report.md
+              full_report.html
+              full_report.json
+              full_report.md

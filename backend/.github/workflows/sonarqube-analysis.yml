@@ -1,0 +1,276 @@
+# .github/workflows/sonarqube-analysis.yml
+name: SonarQube Analysis (No POM Changes)
+
+on:
+  push:
+    branches: [ secops ]
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    
+    services:
+      # SonarQube server as a service container
+      sonarqube:
+        image: sonarqube:community
+        env:
+          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd="curl -f http://localhost:9000/api/system/status | grep -q UP || exit 1"
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        # Shallow clones should be disabled for better analysis
+        fetch-depth: 0
+
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
+      with:
+        java-version: '24'
+        distribution: 'temurin'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build project (main classes only)
+      run: |
+        mvn clean compile \
+          -Dmaven.compiler.source=24 \
+          -Dmaven.compiler.target=24 \
+          -Dmaven.compiler.release=24
+
+    # Skip tests entirely since they don't exist yet
+    # - name: Run tests (skip for now)
+    #   run: mvn test
+    #   continue-on-error: true
+
+    - name: Wait for SonarQube to be ready
+      run: |
+        echo "Waiting for SonarQube to start..."
+        timeout 300 bash -c 'until curl -f http://localhost:9000/api/system/status | grep -q UP; do sleep 5; done'
+        echo "SonarQube is ready!"
+
+    - name: Create SonarQube project
+      run: |
+        # Default admin credentials for fresh SonarQube instance
+        curl -u admin:admin -X POST \
+          "http://localhost:9000/api/projects/create?project=${{ github.repository_owner }}_${{ github.event.repository.name }}&name=${{ github.event.repository.name }}"
+
+    - name: Generate SonarQube token
+      id: sonarqube-token
+      run: |
+        TOKEN=$(curl -u admin:admin -X POST \
+          "http://localhost:9000/api/user_tokens/generate?name=github-actions-${{ github.run_id }}" | \
+          jq -r '.token')
+        echo "::add-mask::$TOKEN"
+        echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+    - name: Download and setup SonarScanner CLI
+      run: |
+        # Download SonarScanner CLI
+        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+        unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+        sudo mv sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner
+        sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+    - name: Create sonar-project.properties
+      run: |
+        cat > sonar-project.properties << EOF
+        # Project identification
+        sonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
+        sonar.projectName=${{ github.event.repository.name }}
+        sonar.projectVersion=1.0
+
+        # Source code configuration
+        sonar.sources=src/main/java
+        sonar.java.binaries=target/classes
+        sonar.java.source=24
+
+        # No tests configured yet
+        # sonar.tests=src/test/java
+        # sonar.java.test.binaries=target/test-classes
+
+        # Exclude common non-business files
+        sonar.exclusions=**/target/**,**/*.min.js,**/vendor/**,**/node_modules/**,**/*Application.java
+        sonar.coverage.exclusions=**/*Application.java,**/dto/**,**/entity/**,**/config/**,**/exception/**
+
+        # Language
+        sonar.language=java
+
+        # Encoding
+        sonar.sourceEncoding=UTF-8
+
+        # SonarQube server
+        sonar.host.url=http://localhost:9000
+        EOF
+
+    - name: Run SonarQube analysis
+      env:
+        SONAR_TOKEN: ${{ steps.sonarqube-token.outputs.token }}
+      run: |
+        sonar-scanner -Dsonar.login=$SONAR_TOKEN
+
+    - name: Export SonarQube reports
+      env:
+        SONAR_TOKEN: ${{ steps.sonarqube-token.outputs.token }}
+      run: |
+        mkdir -p sonarqube-reports
+
+        curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/issues/search?componentKeys=${{ github.repository_owner }}_${{ github.event.repository.name }}&format=json" \
+          > sonarqube-reports/issues.json
+        
+        curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/measures/component?component=${{ github.repository_owner }}_${{ github.event.repository.name }}&metricKeys=ncloc,bugs,vulnerabilities,code_smells,coverage,duplicated_lines_density,reliability_rating,security_rating,sqale_rating" \
+          > sonarqube-reports/metrics.json
+        
+        curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/qualitygates/project_status?projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}" \
+          > sonarqube-reports/quality-gate.json
+
+        curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/hotspots/search?projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}" \
+          > sonarqube-reports/security-hotspots.json
+
+        cat > sonarqube-reports/summary.md << EOF
+
+        **Project:** ${{ github.event.repository.name }}
+        **Analysis Date:** $(date)
+        **Commit:** ${{ github.sha }}
+
+        - issues.json: All issues found during analysis
+        - metrics.json: Project metrics and measurements
+        - quality-gate.json: Quality gate results
+        EOF
+    
+    - name: Upload SonarQube reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: sonarqube-reports-${{ github.run_id }}
+        path: sonarqube-reports/
+        retention-days: 30
+
+    - name: Generate HTML summary reort
+      run: |
+        cat > sonarqube-reports/summary.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>SonarQube Analysis report</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+            .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .metric { display: inline-block; margin: 10px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; text-align: center; min-width: 150px; }
+            .passed { background-color: #d4edda; border-color: #28a745; }
+            .failed { background-color: #f8d7da; border-color: #dc3545; }
+            .metric-value { font-size: 2em; font-weight: bold; margin: 10px 0; }
+            .metric-label { color: #666; font-size: 0.9em; }
+            .json-link { display: inline-block; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; margin: 5px; }
+        </style>
+        </head>
+        <body>
+        <div class="container">
+            <h1>SonarQube Analysis Report</h1>
+            <p><strong>Repository:</strong> ${{ github.repository }}</p>
+            <p><strong>Commit:</strong> ${{ github.sha }}</p>
+            <p><strong>Date:</strong> $(date)</p>
+            
+            <h2>Metrics</h2>
+            <div id="metrics-display">Loading metrics...</div>
+            
+            <h2>Raw Data Files</h2>
+            <a href="./issues.json" class="json-link">Issues (JSON)</a>
+            <a href="./metrics.json" class="json-link">Metrics (JSON)</a>
+            <a href="./quality-gate.json" class="json-link">Quality Gate (JSON)</a>
+            <a href="./security-hotspots.json" class="json-link">Security Hotspots (JSON)</a>
+            
+            <script>
+              fetch('./metrics.json')
+                .then(response => response.json())
+                .then(data => {
+                  const measures = data.component.measures || [];
+                  let html = '';
+
+                  measures.forEach(measure => {
+                    const value = measure.value || '0';
+                    const isGood = (measure.metric === 'bugs' || measure.metric === 'vulnerabilities') && value === '0';
+                    const cssClass = isGood ? 'metric passed' : 'metric';
+                    
+                    html += `<div class="${cssClass}">
+                        <div class="metric-label">${measure.metric.replace(/_/g, ' ').toUpperCase()}</div>
+                        <div class="metric-value">${value}</div>
+                    </div>`;
+                    });
+                        
+                    document.getElementById('metrics-display').innerHTML = html;
+                  })
+                  .catch(() => {
+                    document.getElementById('metrics-display').innerHTML = '<p>Error loading metrics</p>';
+                  });
+            </script> 
+        </html>
+
+
+    - name: Check Quality Gate
+      env:
+        SONAR_TOKEN: ${{ steps.sonarqube-token.outputs.token }}
+      run: |
+        # Wait a bit for analysis to complete
+        sleep 15
+        
+        # Get the quality gate status
+        QUALITY_GATE=$(curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/qualitygates/project_status?projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}" | \
+          jq -r '.projectStatus.status')
+        
+        echo "Quality Gate Status: $QUALITY_GATE"
+        
+        if [ "$QUALITY_GATE" != "OK" ]; then
+          echo "Quality Gate failed!"
+          
+          # Get detailed quality gate information
+          curl -u $SONAR_TOKEN: \
+            "http://localhost:9000/api/qualitygates/project_status?projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}" | \
+            jq '.projectStatus.conditions[]'
+          
+          exit 1
+        fi
+        
+        echo "Quality Gate passed!"
+
+    - name: Display analysis summary
+      env:
+        SONAR_TOKEN: ${{ steps.sonarqube-token.outputs.token }}
+      run: |
+        echo "=== SonarQube Analysis Summary ==="
+        
+        # Get project metrics
+        METRICS=$(curl -u $SONAR_TOKEN: \
+          "http://localhost:9000/api/measures/component?component=${{ github.repository_owner }}_${{ github.event.repository.name }}&metricKeys=ncloc,bugs,vulnerabilities,code_smells,coverage,duplicated_lines_density")
+        
+        echo "Lines of Code: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="ncloc") | .value // "N/A"')"
+        echo "Bugs: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="bugs") | .value // "0"')"
+        echo "Vulnerabilities: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="vulnerabilities") | .value // "0"')"
+        echo "Code Smells: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="code_smells") | .value // "0"')"
+        echo "Coverage: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="coverage") | .value // "N/A"')%"
+        echo "Duplicated Lines: $(echo $METRICS | jq -r '.component.measures[] | select(.metric=="duplicated_lines_density") | .value // "N/A"')%"
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "##  SonarQube Analysis Complete" >> $GITHUB_STEP_SUMMARY
+        echo "**Artifact:** sonarqube-reports-${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Files:** issues.json, metrics.json, quality-gate.json, security-hotspots.json, summary.html" >> $GITHUB_STEP_SUMMARY
+        echo "**Download from:** [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY

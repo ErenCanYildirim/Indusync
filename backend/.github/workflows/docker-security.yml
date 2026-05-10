@@ -1,0 +1,248 @@
+name: Docker Security Scan
+
+on:
+  push:
+    branches: [ secops ]
+
+env:
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  dockerfile-lint:
+    name: Dockerfile Lint (Hadolint)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Find Dockerfiles
+        id: find-dockerfiles
+        run: |
+          # Find all Dockerfiles in the repository
+          dockerfiles=$(find . -type f -name "Dockerfile*" -not -path "./.git/*" | head -20)
+          if [ -z "$dockerfiles" ]; then
+            echo "No Dockerfiles found"
+            echo "found=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found Dockerfiles:"
+            echo "$dockerfiles"
+            echo "found=true" >> $GITHUB_OUTPUT
+            # Save dockerfiles list for next step
+            echo "$dockerfiles" > dockerfiles.txt
+          fi
+        
+      - name: Find Docker Compose Files
+        id: find-compose
+        run: |
+            compose_files=$(find . -type f \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" -o -name "compose*.yml" -o -name "compose*.yaml" \) -not -path "./.git/*")
+            if [ -z "$compose_files" ]; then
+                echo "No Docker Compose files found"
+                echo "compose_found=false" >> $GITHUB_OUTPUT
+            else
+                echo "Found Docker Compose files:"
+                echo "$compose_files"
+                echo "compose_found=true" >> $GITHUB_OUTPUT
+                echo "$compose_files" > compose_files.txt
+            fi
+
+      - name: Run Hadolint
+        if: steps.find-dockerfiles.outputs.found == 'true'
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: "Dockerfile"
+          format: sarif
+          output-file: hadolint-results.sarif
+          no-fail: true  # Don't fail the build, just report
+
+      - name: Run Hadolint on all Dockerfiles
+        if: steps.find-dockerfiles.outputs.found == 'true'
+        run: |
+          # Run hadolint on each Dockerfile found
+          exit_code=0
+          if [ -f "dockerfiles.txt" ]; then
+            while IFS= read -r dockerfile; do
+              if [ -n "$dockerfile" ]; then
+                echo "Linting $dockerfile"
+                docker run --rm -i hadolint/hadolint:latest < "$dockerfile" || exit_code=1
+              fi
+            done < dockerfiles.txt
+          fi
+          
+          if [ $exit_code -ne 0 ]; then
+            echo "::warning::Hadolint found issues in Dockerfiles"
+          fi
+        
+      - name: Scan Docker Compose files with Trivy
+        if: steps.find-compose.outputs.compose_found == 'true'
+        continue-on-error: true
+        run: |
+            #installing trivy
+            sudo apt-get update
+            sudo apt-get install wget apt-transport-https gnupg lsb-release
+            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+            echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+            sudo apt-get update
+            sudo apt-get install trivy
+
+            SCAN_EXIT_CODE=0
+            if [ -f "compose_files.txt" ]; then
+                while IFS= read -r compose_file; do
+                if [ -n "$compose_file" ]; then
+                    echo "Scanning $compose_file for misconfigurations"
+                    if ! trivy config "$compose_file" --format sarif --output "trivy-compose-$(basename "$compose_file").sarif"; then
+                    SCAN_EXIT_CODE=1
+                    fi
+                    trivy config "$compose_file" --format table || true
+                fi
+                done < compose_files.txt
+            fi
+            
+            if [ $SCAN_EXIT_CODE -ne 0 ]; then
+                echo "::warning::Trivy found configuration issues in Docker Compose files"
+            fi
+
+      - name: Upload Hadolint results
+        if: always() && steps.find-dockerfiles.outputs.found == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hadolint-results
+          path: hadolint-results.sarif
+
+      - name: Upload Docker Compose scan results
+        if: always() && steps.find-compose.outputs.compose_found == 'true'
+        uses: actions/upload-artifact@v4 
+        with:
+            name: compose-scan-results
+            path: "trivy-compose-*.sarif"
+
+  docker-build-scan:
+    name: Docker Build & Security Scan
+    runs-on: ubuntu-latest
+    needs: dockerfile-lint
+    
+    strategy:
+      matrix:
+        service: [backend]
+      fail-fast: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check if Dockerfile exists for service
+        id: check-dockerfile
+        run: |
+          if [ -f "Dockerfile" ]; then
+            echo "dockerfile=Dockerfile" >> $GITHUB_OUTPUT
+            echo "exists=true" >> $GITHUB_OUTPUT
+          elif [ -f "${{ matrix.service }}/Dockerfile" ]; then
+            echo "dockerfile=${{ matrix.service }}/Dockerfile" >> $GITHUB_OUTPUT
+            echo "exists=true" >> $GITHUB_OUTPUT
+          elif [ -f "docker/${{ matrix.service }}/Dockerfile" ]; then
+            echo "dockerfile=docker/${{ matrix.service }}/Dockerfile" >> $GITHUB_OUTPUT
+            echo "exists=true" >> $GITHUB_OUTPUT
+          elif [ -f "Dockerfile.${{ matrix.service }}" ]; then
+            echo "dockerfile=Dockerfile.${{ matrix.service }}" >> $GITHUB_OUTPUT
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "No Dockerfile found for ${{ matrix.service }}"
+          fi
+
+      - name: Build Docker image
+        if: steps.check-dockerfile.outputs.exists == 'true'
+        run: |
+          docker build \
+            --tag ${{ matrix.service }}:${{ github.sha }} \
+            --tag ${{ matrix.service }}:latest \
+            --file ${{ steps.check-dockerfile.outputs.dockerfile }} \
+            .
+
+      - name: Run Trivy vulnerability scanner
+        if: steps.check-dockerfile.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ matrix.service }}:latest'
+          format: 'sarif'
+          output: 'trivy-results-${{ matrix.service }}.sarif'
+
+      - name: Run Trivy vulnerability scanner (Table format)
+        if: steps.check-dockerfile.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ matrix.service }}:latest'
+          format: 'table'
+          exit-code: '0'  #Doesnt fail the build
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+      - name: Run Trivy filesystem scan
+        if: steps.check-dockerfile.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-fs-results-${{ matrix.service }}.sarif'
+
+      - name: Upload Trivy scan results
+        if: always() && steps.check-dockerfile.outputs.exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results-${{ matrix.service }}
+          path: |
+            trivy-results-${{ matrix.service }}.sarif
+            trivy-fs-results-${{ matrix.service }}.sarif
+
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [dockerfile-lint, docker-build-scan]
+    if: always()
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create security summary
+        run: |
+          echo "##  Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Hadolint Results" >> $GITHUB_STEP_SUMMARY
+          if [ -d "hadolint-results" ]; then
+            echo "Hadolint scan completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Hadolint scan failed or no Dockerfiles found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Docker Compose Scan Results" >> $GITHUB_STEP_SUMMARY
+          if [ -d "compose-scan-results" ]; then
+            echo "Docker compose config scan completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No docker compose files found or scan skipped" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Trivy Results" >> $GITHUB_STEP_SUMMARY
+          trivy_dirs=$(find . -name "trivy-results-*" -type d 2>/dev/null || true)
+          if [ -n "$trivy_dirs" ]; then
+            for dir in $trivy_dirs; do
+              service=$(basename "$dir" | sed 's/trivy-results-//')
+              echo " $service: Vulnerability scan completed" >> $GITHUB_STEP_SUMMARY
+            done
+          else
+            echo " No Trivy scans completed" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Recommendations" >> $GITHUB_STEP_SUMMARY
+          echo "- Review the uploaded SARIF files for detailed vulnerability information" >> $GITHUB_STEP_SUMMARY
+          echo "- Check the Security tab in your repository for centralized results" >> $GITHUB_STEP_SUMMARY
+          echo "- Address HIGH and CRITICAL vulnerabilities as priority" >> $GITHUB_STEP_SUMMARY
+          echo "- Consider using multi-stage builds to reduce attack surface" >> $GITHUB_STEP_SUMMARY
+          echo "- Regularly update base images and dependencies" >> $GITHUB_STEP_SUMMARY
