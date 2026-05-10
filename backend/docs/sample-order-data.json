@@ -1,0 +1,214 @@
+{
+  "minimal_order_example": {
+    "title": "Elektrische Wartung Produktionshalle",
+    "description": "Routinemäßige Wartung der elektrischen Anlagen in der Produktionshalle. Überprüfung aller Schaltschränke, Verkabelung und Sicherheitssysteme.",
+    "contactName": "Max Mustermann",
+    "contactEmail": "max.mustermann@beispielfirma.de",
+    "contactPhone": "+49 123 456789",
+    "street": "Industriestraße",
+    "houseNumber": "42",
+    "postalCode": "12345",
+    "city": "Berlin",
+    "country": "Deutschland",
+    "locationLat": 52.520008,
+    "locationLng": 13.404954,
+    "searchRadiusKm": 50,
+    "primaryCategory": "ELECTRICAL_WORK",
+    "targetIndustries": ["MANUFACTURING"],
+    "placementTypes": ["PROJECT_CONTRACT"],
+    "urgency": "MEDIUM"
+  },
+
+  "comprehensive_order_example": {
+    "title": "Komplette Maschinenwartung mit Sicherheitsprüfung",
+    "description": "Umfassende Wartungsarbeiten an Produktionsmaschinen einschließlich mechanischer Reparaturen, elektrischer Überprüfungen, Sicherheitsinspektionen und Systemoptimierung. Erfahrung mit CNC-Maschinen und Industrieautomation erforderlich.",
+    
+    "contactName": "Anna Schmidt",
+    "contactEmail": "anna.schmidt@industriewerk.de",
+    "contactPhone": "+49 30 987654321",
+    "additionalContacts": [
+      {
+        "name": "Thomas Weber",
+        "email": "thomas.weber@industriewerk.de",
+        "phone": "+49 30 987654322",
+        "role": "Technischer Leiter"
+      }
+    ],
+    
+    "street": "Maschinenbaustraße",
+    "houseNumber": "15",
+    "postalCode": "80331",
+    "city": "München",
+    "country": "Deutschland",
+    "locationLat": 48.1351,
+    "locationLng": 11.5820,
+    "searchRadiusKm": 100,
+    
+    "primaryCategory": "MECHANICAL_ENGINEERING",
+    "additionalCategories": ["ELECTRICAL_WORK", "SAFETY_INSPECTION", "AUTOMATION"],
+    "targetIndustries": ["AUTOMOTIVE", "MACHINERY", "MANUFACTURING"],
+    "placementTypes": ["PROJECT_CONTRACT", "TEMPORARY_PLACEMENT"],
+    
+    "requiredSpecializations": [
+      "Maschinenbau",
+      "Industrielle Instandhaltung",
+      "CNC-Technik",
+      "Automatisierungstechnik"
+    ],
+    "requiredSkills": [
+      "Schweißen",
+      "Gerätereparatur",
+      "Sicherheitsprotokolle",
+      "Hydraulik",
+      "Pneumatik"
+    ],
+    "requiredVerifications": [
+      "Schweißerprüfung",
+      "Sicherheitsunterweisung",
+      "Kranführerschein"
+    ],
+    "requiredCertifications": [
+      "IHK Maschinenbau",
+      "VDE Elektrotechnik",
+      "TÜV Sicherheitstechnik"
+    ],
+    
+    "urgency": "HIGH",
+    "startDate": "2025-07-15T08:00:00",
+    "deadline": "2025-08-15T17:00:00",
+    "responseTimeHours": 24,
+    "budget": 25000.00
+  },
+
+  "emergency_order_example": {
+    "title": "NOTFALL: Produktionsausfall - Sofortige Reparatur erforderlich",
+    "description": "Kritischer Produktionsausfall durch defekte Hauptmaschine. Sofortige Reparatur erforderlich um Produktionsstillstand zu vermeiden. 24/7 Verfügbarkeit notwendig.",
+    
+    "contactName": "Dr. Michael Bauer",
+    "contactEmail": "notfall@produktionsfirma.de",
+    "contactPhone": "+49 171 1234567",
+    
+    "street": "Produktionsweg",
+    "houseNumber": "8",
+    "postalCode": "45127",
+    "city": "Essen",
+    "country": "Deutschland",
+    "locationLat": 51.4556,
+    "locationLng": 7.0116,
+    "searchRadiusKm": 200,
+    
+    "primaryCategory": "EMERGENCY_REPAIR",
+    "additionalCategories": ["MECHANICAL_ENGINEERING", "ELECTRICAL_WORK"],
+    "targetIndustries": ["STEEL_METAL", "MANUFACTURING"],
+    "placementTypes": ["EMERGENCY_DEPLOYMENT", "STANDBY_SERVICE"],
+    
+    "requiredSpecializations": [
+      "Notfallreparatur",
+      "Maschinenbau",
+      "Hydrauliksysteme"
+    ],
+    "requiredSkills": [
+      "24/7 Verfügbarkeit",
+      "Schnelle Problemdiagnose",
+      "Ersatzteilbeschaffung"
+    ],
+    
+    "urgency": "URGENT",
+    "responseTimeHours": 2,
+    "budget": 50000.00
+  },
+
+  "construction_order_example": {
+    "title": "Neubau Lagerhalle - Komplettausstattung",
+    "description": "Neubau einer 2000 qm Lagerhalle mit kompletter technischer Ausstattung. Benötigt werden Elektriker, Heizungstechniker, Maler und Gerüstbauer für koordinierte Arbeiten.",
+    
+    "contactName": "Petra Hoffmann",
+    "contactEmail": "bauleitung@logistikzentrum.de",
+    "contactPhone": "+49 40 555666777",
+    
+    "street": "Logistikpark",
+    "houseNumber": "1",
+    "postalCode": "22113",
+    "city": "Hamburg",
+    "country": "Deutschland",
+    "locationLat": 53.5511,
+    "locationLng": 9.9937,
+    "searchRadiusKm": 75,
+    
+    "primaryCategory": "CONSTRUCTION",
+    "additionalCategories": ["ELECTRICAL_WORK", "HVAC", "PAINTING", "SCAFFOLDING"],
+    "targetIndustries": ["CONSTRUCTION", "LOGISTICS"],
+    "placementTypes": ["PROJECT_CONTRACT", "TEAM", "MEDIUM_TERM"],
+    
+    "requiredSpecializations": [
+      "Hallenbau",
+      "Industrieelektrik",
+      "Klimatechnik",
+      "Industriebeschichtung"
+    ],
+    "requiredSkills": [
+      "Teamkoordination",
+      "Projektmanagement",
+      "Qualitätskontrolle",
+      "Terminplanung"
+    ],
+    "requiredCertifications": [
+      "Baustellenverordnung",
+      "Arbeitsschutz",
+      "Kranführerschein"
+    ],
+    
+    "urgency": "MEDIUM",
+    "startDate": "2025-08-01T07:00:00",
+    "deadline": "2025-11-30T17:00:00",
+    "responseTimeHours": 48,
+    "budget": 150000.00
+  },
+
+  "consulting_order_example": {
+    "title": "Energieeffizienz-Beratung für Produktionsoptimierung",
+    "description": "Beratungsauftrag zur Analyse und Optimierung der Energieeffizienz in der Produktion. Erstellung eines Konzepts zur Reduzierung des Energieverbrauchs um mindestens 20%.",
+    
+    "contactName": "Prof. Dr. Klaus Müller",
+    "contactEmail": "nachhaltigkeit@technikfirma.de",
+    "contactPhone": "+49 711 888999000",
+    
+    "street": "Technologiepark",
+    "houseNumber": "25",
+    "postalCode": "70569",
+    "city": "Stuttgart",
+    "country": "Deutschland",
+    "locationLat": 48.7758,
+    "locationLng": 9.1829,
+    "searchRadiusKm": 150,
+    
+    "primaryCategory": "CONSULTING",
+    "additionalCategories": ["AUTOMATION", "INSTRUMENTATION"],
+    "targetIndustries": ["AUTOMOTIVE", "MACHINERY", "ELECTRONICS"],
+    "placementTypes": ["CONSULTING", "INDIVIDUAL"],
+    
+    "requiredSpecializations": [
+      "Energiemanagement",
+      "Prozessoptimierung",
+      "Nachhaltigkeitsberatung",
+      "Automatisierungstechnik"
+    ],
+    "requiredSkills": [
+      "Datenanalyse",
+      "Projektmanagement",
+      "Präsentationstechnik",
+      "Kostenrechnung"
+    ],
+    "requiredCertifications": [
+      "Energieberater",
+      "ISO 50001",
+      "Lean Management"
+    ],
+    
+    "urgency": "LOW",
+    "startDate": "2025-09-01T09:00:00",
+    "deadline": "2025-12-31T17:00:00",
+    "responseTimeHours": 72,
+    "budget": 35000.00
+  }
+}
