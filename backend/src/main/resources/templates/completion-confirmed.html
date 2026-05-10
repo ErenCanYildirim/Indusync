@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auftrag erfolgreich abgeschlossen</title>
+  </head>
+  <body>
+    <h2>Auftrag erfolgreich abgeschlossen</h2>
+    <p>Der folgende Auftrag wurde erfolgreich abgeschlossen:</p>
+    <p>
+      <strong>Auftragsnummer:</strong>
+      <span th:text="${orderId}">ORDER-ID</span>
+    </p>
+    <p>
+      <strong>Auftraggeber:</strong>
+      <span th:text="${clientCompanyName}">Client</span>
+    </p>
+    <p>
+      <strong>Dienstleister:</strong>
+      <span th:text="${providerCompanyName}">Provider</span>
+    </p>
+    <p>
+      <strong>Abschlussnachricht:</strong>
+      <span th:text="${completionMessage}">Nachricht</span>
+    </p>
+    <p>
+      <strong>Abschluss bestätigt am:</strong>
+      <span th:text="${completionConfirmedAt}">2025-01-01T12:00:00Z</span>
+    </p>
+    <p>Vielen Dank für die Zusammenarbeit über Indusync!</p>
+    <p>Mit freundlichen Grüßen,<br />Ihr Indusync-Team</p>
+  </body>
+</html>

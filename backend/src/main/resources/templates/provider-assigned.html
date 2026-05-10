@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sie wurden für einen Auftrag ausgewählt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h2>Herzlichen Glückwunsch!</h2>
+    <p>
+      Sie wurden von
+      <strong th:text="${clientName}">Kunde</strong>
+      für einen Auftrag ausgewählt.
+    </p>
+    <p>
+      <strong>Auftragsnummer:</strong>
+      <span th:text="${orderId}">00000000-0000-0000-0000-000000000000</span>
+    </p>
+    <p>
+      <strong>Zuweisungsdatum:</strong>
+      <span th:text="${assignedAt}">2025-01-01T12:00:00Z</span>
+    </p>
+    <p>
+      Bitte melden Sie sich im Indusync-Portal an, um die Details des Auftrags
+      einzusehen und mit dem Kunden in Kontakt zu treten.
+    </p>
+    <p>Viel Erfolg!<br />Ihr Indusync-Team</p>
+  </body>
+</html>

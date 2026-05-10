@@ -1,0 +1,181 @@
+spring:
+  application:
+    name: indusync-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/indusync_db}
+    username: ${DATABASE_USERNAME:admin}
+    password: ${DATABASE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        default_schema: public
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: ${JPA_SHOW_SQL:false}
+  # Flyway configuration for database migrations
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: false # Temporarily disable validation to fix checksum mismatch
+    clean-disabled: true
+    schemas: public,shared,auth,company,order,review
+    out-of-order: true # Allow migrations to be applied out of order
+  profiles:
+    active: ${ENV:dev}
+  threads:
+    virtual:
+      enabled: true
+  # Spring Modulith Configuration
+  modulith:
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: false # We handle schema creation via Flyway migrations
+  # SMTP Configuration
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:indusync.backend@gmail.com}
+    password: ${SMTP_PASSWORD:indusync@123}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # CORS Configuration
+  web:
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+      allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+      allowed-headers: Authorization,Content-Type,X-Requested-With
+      allow-credentials: true
+
+  # File Upload Configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+      location: ${UPLOAD_LOCATION:./uploads}
+      resolve-lazily: false
+
+  # Cache Configuration
+  cache:
+    type: ${CACHE_TYPE:caffeine}
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=5m
+    cache-names:
+      - dashboard-statistics
+      - order-activity
+
+  # Redis Configuration (for distributed cache and rate limiting)
+  data:
+    redis:
+      url: ${REDIS_URL:#{null}}
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: ${REDIS_TIMEOUT:2s}
+      ssl:
+        enabled: ${REDIS_SSL:false}
+      lettuce:
+        pool:
+          max-active: ${REDIS_POOL_MAX_ACTIVE:16}
+          max-idle: ${REDIS_POOL_MAX_IDLE:8}
+          min-idle: ${REDIS_POOL_MIN_IDLE:1}
+          max-wait: ${REDIS_POOL_MAX_WAIT:2s}
+
+# JWT Configuration - Secrets moved to environment variables for security
+jwt:
+  secret: ${JWT_SECRET:} # REQUIRED: Set this in environment variables - DO NOT use default values
+  expiration: 86400000 # 24 hours in milliseconds
+  refresh-token:
+    expiration: 604800000 # 7 days in milliseconds
+
+# Application specific configuration
+app:
+  file:
+    upload:
+      path: ${UPLOAD_DIR:./uploads}
+    max-size: ${MAX_FILE_SIZE:10485760} # 10MB in bytes
+    allowed-types: ${ALLOWED_FILE_TYPES:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png}
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:3000}
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Swagger/OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  packages-to-scan: com.indusync.indusync_backend
+
+# Actuator Configuration for Monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework: INFO
+    com.indusync.indusync_backend: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+
+# JWT Security Configuration - All secrets MUST be provided via environment variables
+security:
+  jwt:
+    secret: ${JWT_SECRET:} # CRITICAL: Must be set in environment - DO NOT commit secrets
+    expiration: 86400000 # 24 hours in milliseconds
+    enhanced-validation: ${SECURITY_JWT_ENHANCED_VALIDATION:true} # Enable enhanced security by default
+    key-rotation:
+      enabled: ${SECURITY_JWT_KEY_ROTATION_ENABLED:false} # Disable key rotation by default
+      interval-days: ${JWT_KEY_ROTATION_INTERVAL:30} # Rotate keys every 30 days
+    refresh-token:
+      expiration: 604800000 # 7 days in milliseconds
+    issuer: ${JWT_ISSUER:indusync-backend}
+    audience: ${JWT_AUDIENCE:indusync-client}
+    not-before-leeway: ${JWT_NBF_LEEWAY:30000} # 30 seconds
+    rate-limiting:
+      enabled: ${JWT_RATE_LIMITING_ENABLED:true}
+      max-requests-per-minute: ${JWT_MAX_REQUESTS_PER_MINUTE:200}
+      max-refresh-per-hour: ${JWT_MAX_REFRESH_PER_HOUR:10}
+
+# Cloudinary Configuration
+cloudinary:
+  url: ${CLOUDINARY_URL:cloudinary://1131134385111}

@@ -1,0 +1,23 @@
+# Development profile configuration
+# This file overrides application.yml for development environment
+# Relaxes security constraints for easier development while maintaining core security
+
+security:
+  jwt:
+    enhanced-validation: true # Disable strict entropy validation for dev
+    key-rotation:
+      enabled: true # Disable key rotation for dev
+    rate-limiting:
+      enabled: true # Keep rate limiting for testing
+
+# Development-friendly logging
+logging:
+  level:
+    com.indusync.indusync_backend.shared.security: DEBUG
+    com.indusync.indusync_backend.core.security: DEBUG
+    org.springframework.security: DEBUG
+
+# Development cache settings (use Caffeine by default)
+spring:
+  cache:
+    type: ${CACHE_TYPE:caffeine}

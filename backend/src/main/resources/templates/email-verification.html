@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title th:text="#{email.verify.title}">E-Mail-Adresse bestätigen</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f6f8fa;
+        color: #333333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        padding: 24px;
+      }
+      h2 {
+        color: #24292e;
+        margin-top: 0;
+      }
+      .btn {
+        display: inline-block;
+        margin: 24px 0;
+        padding: 12px 24px;
+        background-color: #28a745;
+        color: #ffffff !important;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      .footer {
+        margin-top: 32px;
+        font-size: 12px;
+        color: #6a737d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Willkommen bei IndusSync, <span th:text="${name}">Nutzer</span>!</h2>
+
+      <p>
+        Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden
+        Button klicken:
+      </p>
+
+      <a th:href="${verificationUrl}" class="btn">E-Mail bestätigen</a>
+
+      <p>
+        Sollten Sie sich nicht bei IndusSync registriert haben, können Sie diese
+        Nachricht ignorieren.
+      </p>
+
+      <p class="footer">Vielen Dank,<br />Ihr IndusSync-Team</p>
+    </div>
+  </body>
+</html>

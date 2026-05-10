@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interesse an Ihrem Auftrag</title>
+  </head>
+  <body>
+    <h2>Ein Dienstleister hat Interesse an Ihrem Auftrag!</h2>
+    <p>
+      Der Dienstleister <strong th:text="${providerName}">Dienstleister</strong>
+      hat Interesse an Ihrem Auftrag (ID:
+      <span th:text="${orderId}">ORDER-ID</span>) bekundet.
+    </p>
+    <p>
+      Interesse bekundet am:
+      <span th:text="${interestedAt}">2025-01-01T12:00:00Z</span>
+    </p>
+    <p>
+      Bitte loggen Sie sich in Ihr Indusync-Konto ein, um weitere Details zu
+      sehen und ggf. Kontakt aufzunehmen.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Abschlussanfrage für Auftrag erhalten</title>
+  </head>
+  <body>
+    <h2>Abschlussanfrage erhalten</h2>
+    <p>Sie haben eine Abschlussanfrage für den folgenden Auftrag erhalten:</p>
+    <p>
+      <strong>Auftragsnummer:</strong>
+      <span th:text="${orderId}">ORDER-ID</span>
+    </p>
+    <p>
+      <strong>Angefragt von:</strong>
+      <span th:text="${requesterName}">Anfrager</span>
+    </p>
+    <p>
+      <strong>Nachricht:</strong>
+      <span th:text="${completionMessage}">Nachricht</span>
+    </p>
+    <p>
+      <strong>Datum der Anfrage:</strong>
+      <span th:text="${requestedAt}">2025-01-01T12:00:00Z</span>
+    </p>
+    <p>
+      Bitte melden Sie sich im Indusync-Portal an, um die Anfrage zu bestätigen
+      oder abzulehnen.
+    </p>
+    <p>Mit freundlichen Grüßen,<br />Ihr Indusync-Team</p>
+  </body>
+</html>

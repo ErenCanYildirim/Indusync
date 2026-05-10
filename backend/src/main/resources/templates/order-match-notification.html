@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{email.match.title}">Neuer Auftrag verfügbar</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f6f8fa;
+        color: #333333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        padding: 24px;
+      }
+      h1 {
+        color: #007bff;
+        margin-top: 0;
+        font-size: 26px;
+      }
+      .match-score {
+        background-color: #28a745;
+        color: #ffffff;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 12px 0 20px 0;
+      }
+      .order-card {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      .order-title {
+        color: #007bff;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 6px 0;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 4px;
+      }
+      .detail-label {
+        font-weight: bold;
+        color: #495057;
+      }
+      .detail-value {
+        color: #6c757d;
+      }
+      .description {
+        background: #ffffff;
+        padding: 12px;
+        border-left: 4px solid #007bff;
+        margin-top: 14px;
+        font-style: italic;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff !important;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        margin: 24px 0;
+      }
+      .footer {
+        margin-top: 32px;
+        font-size: 12px;
+        color: #6a737d;
+        text-align: center;
+      }
+      .urgency-high {
+        color: #dc3545;
+        font-weight: bold;
+      }
+      .urgency-urgent {
+        color: #dc3545;
+        font-weight: bold;
+        background-color: #f8d7da;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔔 Neuer Auftrag verfügbar</h1>
+      <p>Hallo <strong th:text="${companyName}">Unternehmen</strong>,</p>
+
+      <p>Ein neuer Auftrag passt zu Ihrem Profil:</p>
+
+      <div class="match-score" th:text="${matchScore} + '% Übereinstimmung'">
+        85% Übereinstimmung
+      </div>
+
+      <div class="order-card">
+        <div class="order-title" th:text="${orderTitle}">Auftragstitel</div>
+
+        <div class="detail-row">
+          <span class="detail-label">📍 Standort:</span>
+          <span class="detail-value" th:text="${orderLocation}">Berlin</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">📏 Entfernung:</span>
+          <span class="detail-value" th:text="${distanceKm} + ' km'"
+            >25 km</span
+          >
+        </div>
+        <div class="detail-row" th:if="${deadline != null}">
+          <span class="detail-label">⏰ Deadline:</span>
+          <span
+            class="detail-value"
+            th:text="${#temporals.format(deadline, 'dd.MM.yyyy')}"
+            >31.12.2025</span
+          >
+        </div>
+        <div class="detail-row" th:if="${budget != null}">
+          <span class="detail-label">💰 Budget:</span>
+          <span
+            class="detail-value"
+            th:text="${#numbers.formatDecimal(budget, 0, 'POINT', 2, 'COMMA')} + ' €'"
+            >10 000 €</span
+          >
+        </div>
+        <div class="detail-row" th:if="${urgency != null}">
+          <span class="detail-label">🚨 Dringlichkeit:</span>
+          <span
+            class="detail-value"
+            th:text="${urgency}"
+            th:classappend="${urgency == 'HOCH' || urgency == 'URGENT'} ? ' urgency-high' : ''"
+            >HOCH</span
+          >
+        </div>
+
+        <div class="description" th:text="${orderDescription}">
+          Kurze Beschreibung des Auftrags …
+        </div>
+      </div>
+
+      <div style="text-align: center">
+        <a th:href="${viewOrderUrl}" class="btn">📋 Auftrag ansehen</a>
+      </div>
+
+      <div
+        style="
+          background-color: #e9ecef;
+          padding: 15px;
+          border-radius: 5px;
+          margin: 20px 0;
+        "
+      >
+        <strong>Kontakt Auftraggeber:</strong><br />
+        👤 <span th:text="${contactName}">Max Muster</span><br />
+        📧 <span th:text="${contactEmail}">max@firma.de</span>
+      </div>
+
+      <p style="font-size: 14px; color: #6c757d">
+        Dies ist eine automatische Benachrichtigung basierend auf Ihrem
+        Unternehmensprofil. Sie können Ihre Benachrichtigungseinstellungen
+        jederzeit in Ihrem Dashboard anpassen.
+      </p>
+
+      <div class="footer">
+        <p>Mit freundlichen Grüßen,<br /><strong>Ihr IndusSync-Team</strong></p>
+        <p>
+          <a href="https://www.indusync.de" style="color: #007bff"
+            >www.indusync.de</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

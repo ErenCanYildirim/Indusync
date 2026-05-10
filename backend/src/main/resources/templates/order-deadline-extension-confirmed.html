@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Deadline Extension Confirmed</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .button { display: inline-block; padding: 10px 16px; background-color: #3B82F6; color: #ffffff; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Deadline Extension Confirmed</h2>
+    <p>Hello,</p>
+    <p>The proposed deadline change for Order <strong th:text="${orderId}">ORDER_ID</strong> has been confirmed.</p>
+    <p><strong>New deadline:</strong> <span th:text="${newDeadline}">2025-05-15T18:00</span></p>
+    <p>You can view the updated order details in your dashboard.</p>
+<!--    <p>-->
+<!--        <a th:href="@{|${@environment.getProperty('app.frontend.url')}/dashboard/orders/${orderId}|}" class="button">Open Order</a>-->
+<!--    </p>-->
+    <p>Best regards,<br/>Indusync Team</p>
+</div>
+</body>
+</html> 
